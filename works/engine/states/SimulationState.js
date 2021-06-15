@@ -26,7 +26,7 @@ export const SimulationState = {
 
     const aircraft = SimulationAircraft.build();
 
-    aircraft.object.position.set(0, 1, 0);
+    aircraft.object.position.set(0, 5, 0);
     aircraft.object.add(cameraHolder);
 
     scene.add(aircraft.object);

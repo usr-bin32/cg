@@ -1,138 +1,85 @@
-const YAW_VELOCITY = 2;
-const PITCH_VELOCITY = 3;
-const ROLL_VELOCITY = 3;
+import * as THREE from "../../../build/three.module.js";
+
+const MAX_VEL = 1;
+const PITCH_ACC = 2;
+const ROLL_ACC = 1.5;
 
 export class ControlsSystem {
     update(entity, world, dt) {
         if (!entity.controls || !entity.object) {
             return;
         }
+
         const controls = entity.controls;
         const object = entity.object;
         const aircraft = object.children[0];
-        
-        if (world.input.down("1")) {
-            controls.beginnerMode = !controls.beginnerMode;
-        }
 
-        if (controls.beginnerMode && aircraft) {
-            // Pitch
-            if (world.input.pressed("down")) {
-                controls.pitch -= PITCH_VELOCITY * dt;
-            } else if (world.input.pressed("up")) {
-                controls.pitch += PITCH_VELOCITY * dt;
-            } else {
-                const targetPitch = aircraft.rotation.z * 5;
-
-                if (Math.abs(controls.pitch - targetPitch) < 0.01) {
-                    controls.pitch = targetPitch;
-                } else {
-                    if (controls.pitch > targetPitch) {
-                        controls.pitch -= PITCH_VELOCITY * dt;
-                    } else if (controls.pitch < targetPitch) {
-                        controls.pitch += PITCH_VELOCITY * dt;
-                    }
-                }
-            }
-
-            // Roll
-            const rollLimit = Math.PI / 2;
-            if (world.input.pressed("left")) {
-                const targetRoll = (aircraft.rotation.x + rollLimit);
-
-                if (controls.roll < targetRoll) {
-                    controls.roll += PITCH_VELOCITY * dt;
-                } else if (controls.roll > targetRoll) {
-                    controls.roll -= PITCH_VELOCITY * dt;
-                }
-            } else if (world.input.pressed("right")) {
-                const targetRoll = (aircraft.rotation.x - rollLimit);
-
-                if (controls.roll < targetRoll) {
-                    controls.roll += PITCH_VELOCITY * dt;
-                } else if (controls.roll > targetRoll) {
-                    controls.roll -= PITCH_VELOCITY * dt;
-                }
-            } else {
-                const targetRoll = aircraft.rotation.x * 1;
-
-                if (Math.abs(controls.roll - targetRoll) < 0.01) {
-                    controls.roll = targetRoll;
-                } else {
-                    if (controls.roll > targetRoll) {
-                        controls.roll -= PITCH_VELOCITY * dt;
-                    } else if (controls.roll < targetRoll) {
-                        controls.roll += PITCH_VELOCITY * dt;
-                    }
-                }
-            }
+        // Roll / Yaw
+        const hasPitch =
+            world.input.pressed("down") || world.input.pressed("up");
+        const rollLimit = Math.PI / (hasPitch ? 4 : 2);
+        if (world.input.pressed("right")) {
+            const targetVel = (rollLimit - aircraft.rotation.x) / rollLimit;
+            controls.roll = updateValue(
+                controls.roll,
+                targetVel,
+                ROLL_ACC * dt
+            );
+        } else if (world.input.pressed("left")) {
+            const targetVel = -(rollLimit + aircraft.rotation.x) / rollLimit;
+            controls.roll = updateValue(
+                controls.roll,
+                targetVel,
+                ROLL_ACC * dt
+            );
         } else {
-            // Pitch
-            if (world.input.pressed("down")) {
-                controls.pitch -= PITCH_VELOCITY * dt;
-            } else if (world.input.pressed("up")) {
-                controls.pitch += PITCH_VELOCITY * dt;
-            } else {
-                if (controls.pitch > 0) {
-                    controls.pitch -= PITCH_VELOCITY * dt;
-                } else if (controls.pitch < 0) {
-                    controls.pitch += PITCH_VELOCITY * dt;
-                }
-            }
-
-            // Yaw
-            if (world.input.pressed("A")) {
-                controls.yaw += YAW_VELOCITY * dt;
-            } else if (world.input.pressed("D")) {
-                controls.yaw -= YAW_VELOCITY * dt;
-            } else {
-                if (controls.yaw > 0) {
-                    controls.yaw -= YAW_VELOCITY * dt;
-                } else if (controls.yaw < 0) {
-                    controls.yaw += YAW_VELOCITY * dt;
-                }
-            }
-
-            // Roll
-            if (world.input.pressed("left")) {
-                controls.roll += ROLL_VELOCITY * dt;
-            } else if (world.input.pressed("right")) {
-                controls.roll -= ROLL_VELOCITY * dt;
-            } else {
-                if (controls.roll > 0) {
-                    controls.roll -= ROLL_VELOCITY * dt;
-                } else if (controls.roll < 0) {
-                    controls.roll += ROLL_VELOCITY * dt;
-                }
-            }
+            const targetVel = (0 - aircraft.rotation.x) / rollLimit;
+            controls.roll = updateValue(
+                controls.roll,
+                targetVel,
+                ROLL_ACC * dt
+            );
         }
 
-        // Limit movement.
-        if (controls.pitch > 1) {
-            controls.pitch = 1;
-        } else if (controls.pitch < -1) {
-            controls.pitch = -1;
-        }
-        if (controls.yaw > 1) {
-            controls.yaw = 1;
-        } else if (controls.yaw < -1) {
-            controls.yaw = -1;
-        }
-        if (controls.roll > 1) {
-            controls.roll = 1;
-        } else if (controls.roll < -1) {
-            controls.roll = -1;
+        // Pitch
+        if (world.input.pressed("down")) {
+            const targetVel = Math.max(
+                0,
+                MAX_VEL - (1.2 * Math.abs(aircraft.rotation.x)) / (Math.PI / 2)
+            );
+            controls.pitch = updateValue(
+                controls.pitch,
+                targetVel,
+                PITCH_ACC * dt
+            );
+        } else if (world.input.pressed("up")) {
+            const targetVel = Math.min(
+                0,
+                -MAX_VEL + (1.2 * Math.abs(aircraft.rotation.x)) / (Math.PI / 2)
+            );
+            controls.pitch = updateValue(
+                controls.pitch,
+                targetVel,
+                PITCH_ACC * dt
+            );
+        } else {
+            const targetVel = -2 * object.rotation.z;
+            controls.pitch = updateValue(controls.pitch, targetVel, PITCH_ACC * dt);
         }
 
-        // Prevent stuttering.
-        if (Math.abs(controls.pitch) < 0.01) {
-            controls.pitch = 0;
+        controls.yaw = -aircraft.rotation.x / 8;
+        controls.elevonPitch = -Math.abs(aircraft.rotation.x) + -controls.pitch;
+    }
+}
+
+function updateValue(current, target, delta, tolerance = 0.01) {
+    if (Math.abs(current - target) > tolerance) {
+        if (current < target) {
+            return current + delta;
+        } else if (current > target) {
+            return current - delta;
         }
-        if (Math.abs(controls.yaw) < 0.01) {
-            controls.yaw = 0;
-        }
-        if (Math.abs(controls.roll) < 0.01) {
-            controls.roll = 0;
-        }
+    } else {
+        return target;
     }
 }
