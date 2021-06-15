@@ -17,7 +17,7 @@ export const SimulationAircraft = {
             object,
             movingParts: new MovingParts(aircraft),
             controls: new Controls(),
-            physics: new Physics(new THREE.Vector3(30, 0, 0)),
+            physics: new Physics(new THREE.Vector3(100, 0, 0)),
         };
     },
 };

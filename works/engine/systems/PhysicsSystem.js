@@ -24,6 +24,13 @@ export class PhysicsSystem {
         object.rotation.y += physics.angularVelocity.y * dt;
         object.rotation.z += physics.angularVelocity.z * dt;
 
+        if (object.rotation.z > Math.PI) {
+            object.rotation.z -= 2 * Math.PI;
+        } else if (object.rotation.z < -Math.PI) {
+            object.rotation.z += 2 * Math.PI;
+        }
+        
+        // Camera counter-rotation
         camera.rotation.y = -physics.angularVelocity.y / 3;
         camera.rotation.z = -physics.angularVelocity.z / 15;
 

@@ -3,6 +3,7 @@ import * as THREE from "../../../build/three.module.js";
 const MAX_VEL = 1;
 const PITCH_ACC = 2;
 const ROLL_ACC = 1.5;
+const RUDDER_ACC = 1.5;
 
 export class ControlsSystem {
     update(entity, world, dt) {
@@ -63,7 +64,13 @@ export class ControlsSystem {
                 PITCH_ACC * dt
             );
         } else {
-            const targetVel = -Math.min(2 * object.rotation.z, 1);
+            let targetVel = -2 * object.rotation.z;
+            if (targetVel < -MAX_VEL) {
+                targetVel = -MAX_VEL;
+            } else if (targetVel > MAX_VEL) {
+                targetVel = MAX_VEL;
+            }
+
             controls.pitch = updateValue(
                 controls.pitch,
                 targetVel,
@@ -76,21 +83,21 @@ export class ControlsSystem {
         if (world.input.pressed("Z")) {
             controls.rudderYaw = Math.min(
                 maxRudderYaw,
-                controls.rudderYaw + 1 * dt
+                controls.rudderYaw + RUDDER_ACC * dt
             );
         } else if (world.input.pressed("X")) {
             controls.rudderYaw = Math.max(
                 -maxRudderYaw,
-                controls.rudderYaw - 1 * dt
+                controls.rudderYaw - RUDDER_ACC * dt
             );
         } else {
             if (Math.abs(controls.rudderYaw) < 0.01) {
                 controls.rudderYaw = 0;
             } else {
                 if (controls.rudderYaw > 0) {
-                    controls.rudderYaw -= 1 * dt;
+                    controls.rudderYaw -= RUDDER_ACC * dt;
                 } else if (controls.rudderYaw < 0) {
-                    controls.rudderYaw += 1 * dt;
+                    controls.rudderYaw += RUDDER_ACC * dt;
                 }
             }
         }
