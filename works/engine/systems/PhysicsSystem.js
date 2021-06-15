@@ -18,10 +18,14 @@ export class PhysicsSystem {
         }
 
         const aircraft = object.children[0];
+        const camera = object.children[2];
 
         aircraft.rotateX(physics.angularVelocity.x * dt);
         object.rotation.y += physics.angularVelocity.y * dt;
         object.rotation.z += physics.angularVelocity.z * dt;
+
+        camera.rotation.y = -physics.angularVelocity.y / 3;
+        camera.rotation.z = -physics.angularVelocity.z / 15;
 
         // Translation
         object.position.add(

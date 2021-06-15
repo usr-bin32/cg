@@ -45,7 +45,7 @@ export class ControlsSystem {
         if (world.input.pressed("down")) {
             const targetVel = Math.max(
                 0,
-                MAX_VEL - (1.2 * Math.abs(aircraft.rotation.x)) / (Math.PI / 2)
+                MAX_VEL - (1.1 * Math.abs(aircraft.rotation.x)) / (Math.PI / 2)
             );
             controls.pitch = updateValue(
                 controls.pitch,
@@ -55,7 +55,7 @@ export class ControlsSystem {
         } else if (world.input.pressed("up")) {
             const targetVel = Math.min(
                 0,
-                -MAX_VEL + (1.2 * Math.abs(aircraft.rotation.x)) / (Math.PI / 2)
+                -MAX_VEL + (1.1 * Math.abs(aircraft.rotation.x)) / (Math.PI / 2)
             );
             controls.pitch = updateValue(
                 controls.pitch,
