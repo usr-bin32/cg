@@ -15,7 +15,7 @@ export const SimulationState = {
       60,
       window.innerWidth / window.innerHeight,
       0.1,
-      10000
+      50000
     );
     camera.rotation.y = -Math.PI / 2;
     camera.position.y = 2.5;
@@ -30,7 +30,7 @@ export const SimulationState = {
     aircraft.object.add(cameraHolder);
 
     scene.add(aircraft.object);
-    scene.add(utils.createGroundPlaneWired(10000, 10000, 100, 100));
+    scene.add(utils.createGroundPlaneWired(50000, 50000, 200, 200));
     utils.initDefaultBasicLight(scene, true);
 
     const state = new GameState(

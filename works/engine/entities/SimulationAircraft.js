@@ -8,10 +8,12 @@ import { Physics } from "../components/Physics.js";
 export const SimulationAircraft = {
     build: function () {
         const aircraft = Mirage.build();
+        const helper = new THREE.AxesHelper(15);
+        helper.visible = false;
 
         const object = new THREE.Object3D();
         object.add(aircraft);
-        object.add(new THREE.AxesHelper(15));
+        object.add(helper);
 
         return {
             object,

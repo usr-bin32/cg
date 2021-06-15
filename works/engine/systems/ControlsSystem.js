@@ -15,6 +15,13 @@ export class ControlsSystem {
         const object = entity.object;
         const aircraft = object.children[0];
 
+        // Throttle
+        if (world.input.pressed("Q")) {
+            controls.throttle = Math.min(1, controls.throttle + 0.5 * dt);
+        } else if (world.input.pressed("A")) {
+            controls.throttle = Math.max(0, controls.throttle - 0.5 * dt);
+        }
+
         // Roll / Yaw
         const hasPitch =
             world.input.pressed("down") || world.input.pressed("up");
