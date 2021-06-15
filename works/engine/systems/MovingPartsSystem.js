@@ -11,6 +11,6 @@ export class MovingPartsSystem {
             0.225 * (1 * controls.elevonPitch + 1.2 * controls.roll);
         movingParts.rightElevon.rotation.x =
             0.225 * (1 * controls.elevonPitch - 1.2 * controls.roll);
-        movingParts.rudder.rotation.y = controls.rudderYaw * 0.2;
+        movingParts.rudder.rotation.y = controls.rudderYaw * 0.15;
     }
 }

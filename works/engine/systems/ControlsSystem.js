@@ -63,11 +63,39 @@ export class ControlsSystem {
                 PITCH_ACC * dt
             );
         } else {
-            const targetVel = -2 * object.rotation.z;
-            controls.pitch = updateValue(controls.pitch, targetVel, PITCH_ACC * dt);
+            const targetVel = -Math.min(2 * object.rotation.z, 1);
+            controls.pitch = updateValue(
+                controls.pitch,
+                targetVel,
+                PITCH_ACC * dt
+            );
         }
 
-        controls.yaw = -aircraft.rotation.x / 8;
+        // Extra
+        const maxRudderYaw = Math.PI / 2 - Math.abs(aircraft.rotation.x);
+        if (world.input.pressed("Z")) {
+            controls.rudderYaw = Math.min(
+                maxRudderYaw,
+                controls.rudderYaw + 1 * dt
+            );
+        } else if (world.input.pressed("X")) {
+            controls.rudderYaw = Math.max(
+                -maxRudderYaw,
+                controls.rudderYaw - 1 * dt
+            );
+        } else {
+            if (Math.abs(controls.rudderYaw) < 0.01) {
+                controls.rudderYaw = 0;
+            } else {
+                if (controls.rudderYaw > 0) {
+                    controls.rudderYaw -= 1 * dt;
+                } else if (controls.rudderYaw < 0) {
+                    controls.rudderYaw += 1 * dt;
+                }
+            }
+        }
+
+        controls.yaw = -aircraft.rotation.x / 8 - controls.rudderYaw / 20;
         controls.elevonPitch = -Math.abs(aircraft.rotation.x) + -controls.pitch;
     }
 }
