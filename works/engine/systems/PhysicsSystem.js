@@ -31,6 +31,7 @@ export class PhysicsSystem {
         const camera = object.children[2];
 
         aircraft.rotateX(physics.angularVelocity.x * dt);
+        // TODO: fix upside down movement
         object.rotation.y += physics.angularVelocity.y * dt;
         object.rotation.z += physics.angularVelocity.z * dt;
 
