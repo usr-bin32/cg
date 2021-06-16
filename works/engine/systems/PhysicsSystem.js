@@ -21,7 +21,11 @@ export class PhysicsSystem {
             physics.acceleration.x =
                 (targetVelocity - physics.velocity.x) / 1400;
         }
+
         physics.velocity.x += physics.acceleration.x;
+        if (physics.velocity.x < 0) {
+            physics.velocity.x = 0;
+        }
 
         const aircraft = object.children[0];
         const camera = object.children[2];
