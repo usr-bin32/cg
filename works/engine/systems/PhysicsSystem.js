@@ -19,10 +19,11 @@ export class PhysicsSystem {
             const targetVelocity =
                 (controls.throttle - Math.abs(controls.yaw)) * 555;
             physics.acceleration.x =
-                (targetVelocity - physics.velocity.x) / 1400;
+                (targetVelocity - physics.velocity.x) / 750;
         }
 
         physics.velocity.x += physics.acceleration.x;
+        console.log(physics.velocity.x * 3.6);
         if (physics.velocity.x < 0) {
             physics.velocity.x = 0;
         }
