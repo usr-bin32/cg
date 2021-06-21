@@ -23,10 +23,7 @@ export class PhysicsSystem {
         }
 
         physics.velocity.x += physics.acceleration.x;
-        console.log(physics.velocity.x * 3.6);
-        if (physics.velocity.x < 0) {
-            physics.velocity.x = 0;
-        }
+        physics.velocity.x = 0;
 
         const aircraft = object.children[0];
         const camera = object.children[2];
