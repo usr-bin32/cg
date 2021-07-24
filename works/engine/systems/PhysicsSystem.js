@@ -16,8 +16,10 @@ export class PhysicsSystem {
             physics.angularVelocity.y = controls.yaw * 1.25;
             physics.angularVelocity.z = controls.pitch * 0.6;
 
+            // Make velocity more perceivable.
+            const scaleFactor = 2.5;
             const targetVelocity =
-                (controls.throttle - Math.abs(controls.yaw)) * 555;
+                (controls.throttle - Math.abs(controls.yaw)) * 555 * scaleFactor;
             physics.acceleration.x =
                 (targetVelocity - physics.velocity.x) / 750;
         }
