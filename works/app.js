@@ -16,6 +16,7 @@ function main() {
     antialias: true,
   });
   renderer.setClearColor(0x6989d6, 1);
+  renderer.shadowMap.enabled = true;
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   // Initialize world and its state.

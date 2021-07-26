@@ -35,6 +35,7 @@ export const Mirage = {
 const fuselageMaterial = new THREE.MeshPhongMaterial({
   color: 0x647f9c,
   side: THREE.DoubleSide,
+  shininess: 50,
 });
 
 const noseMaterial = new THREE.MeshPhongMaterial({
@@ -48,10 +49,13 @@ const nozzleMaterial = new THREE.MeshPhongMaterial({
 });
 
 const canopyMaterial = new THREE.MeshPhongMaterial({
-  color: 0x9999999,
-  emissive: 0x9999999,
+  color: 0x999999,
+  emissive: 0x999999,
+  shininess: 100,
   emissiveIntensity: 0.5,
   reflectivity: 1,
+  opacity: 0.9,
+  transparent: true,
 });
 
 function tail() {
@@ -250,7 +254,11 @@ function innerElevon() {
 
 function backTube() {
   const geometry = new THREE.CylinderGeometry(60, 72, BACK_TUBE_LEN, 64, 64);
-  const object = new THREE.Mesh(geometry, fuselageMaterial);
+  const object = new THREE.Mesh(geometry, [
+    fuselageMaterial,
+    nozzleMaterial,
+    nozzleMaterial,
+  ]);
 
   object.translateY(MAIN_TUBE_LEN / 2 + BACK_TUBE_LEN / 2);
 
@@ -394,7 +402,10 @@ function canopyGlue() {
 function canopyFront() {
   const len = 200;
   const geometry = new THREE.CylinderGeometry(56, 40, len, 64, 64);
-  const object = new THREE.Mesh(geometry, canopyMaterial);
+  const object = new THREE.Mesh(geometry, [
+    canopyMaterial,
+    new THREE.MeshPhongMaterial({ color: 0x000000, transparent: true, opacity: 0.3, refractionRatio: 0.8 }),
+  ]);
 
   object.translateY(-len / 2 - CANOPY_BACK_LEN / 2);
   object.translateX(21);

@@ -7,6 +7,7 @@ import { ControlsSystem } from "../systems/ControlsSystem.js";
 import { ModeSystem } from "../systems/ModeSystem.js";
 import { PhysicsSystem } from "../systems/PhysicsSystem.js";
 import { SimulationAircraft } from "../entities/SimulationAircraft.js";
+import { CameraToggleSystem } from "../systems/CameraToggleSystem.js";
 
 export const SimulationState = {
   build: function () {
@@ -22,16 +23,23 @@ export const SimulationState = {
     camera.position.x = -20;
 
     const cameraHolder = new THREE.Object3D();
+    cameraHolder.name = "cameraHolder";
     cameraHolder.add(camera);
 
     const aircraft = SimulationAircraft.build();
+    aircraft.object.traverse((child) => {
+      child.castShadow = true;
+    });
 
     aircraft.object.position.set(0, 5, 0);
     aircraft.object.add(cameraHolder);
-
     scene.add(aircraft.object);
-    scene.add(utils.createGroundPlaneWired(50000, 50000, 200, 200));
-    utils.initDefaultBasicLight(scene, true);
+
+    const ground = utils.createGroundPlaneWired(50000, 50000);
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    addLighting(scene, aircraft.object);
 
     const state = new GameState(
       scene,
@@ -41,6 +49,7 @@ export const SimulationState = {
         new MovingPartsSystem(),
         new PhysicsSystem(),
         new ModeSystem(),
+        new CameraToggleSystem()
       ],
       [aircraft]
     );
@@ -48,3 +57,29 @@ export const SimulationState = {
     return state;
   },
 };
+
+function addLighting(scene, target, position = new THREE.Vector3(0, 10000, 12500)) {
+  const ambientLight = new THREE.HemisphereLight(
+    'white',
+    'darkslategrey',
+    0.5,
+  );
+
+  const sunLight = new THREE.DirectionalLight('white', 0.8);
+  sunLight.position.copy(position);
+  sunLight.target = target;
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.width = 2048 * 2;
+  sunLight.shadow.mapSize.height = 2048 * 2;
+
+  sunLight.shadow.camera.visible = true;
+  sunLight.shadow.camera.left = -100;
+  sunLight.shadow.camera.right = 100;
+  sunLight.shadow.camera.top = 100;
+  sunLight.shadow.camera.bottom = -100;
+  sunLight.shadow.camera.near = 0.1;
+  sunLight.shadow.camera.far = 50000;
+
+  scene.add(ambientLight);
+  scene.add(sunLight);
+}

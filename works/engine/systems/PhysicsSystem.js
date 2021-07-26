@@ -43,9 +43,16 @@ export class PhysicsSystem {
             object.rotation.z += 2 * Math.PI;
         }
 
-        // Camera counter-rotation
-        camera.rotation.y = -physics.angularVelocity.y / 3;
-        camera.rotation.z = -physics.angularVelocity.z / 15;
+        if (!entity.cameraState.cockpit) {
+            // Camera counter-rotation
+            camera.rotation.x = 0;
+            camera.rotation.y = -physics.angularVelocity.y / 3;
+            camera.rotation.z = -physics.angularVelocity.z / 15;
+        } else {
+            camera.rotation.x = aircraft.rotation.x;
+            camera.rotation.y = 0;
+            camera.rotation.z = 0;
+        }
 
         // Translation
         object.position.add(
