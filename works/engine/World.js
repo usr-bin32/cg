@@ -1,7 +1,7 @@
 export class World {
-  constructor(state, input) {
+  constructor(state, input, prevState = null) {
     this.state = state;
-    this.prevState = null;
+    this.prevState = prevState;
 
     this.input = input;
   }

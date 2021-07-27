@@ -8,7 +8,6 @@ import { PhysicsSystem } from "../systems/PhysicsSystem.js";
 import { SimulationAircraft } from "../entities/SimulationAircraft.js";
 import { CameraToggleSystem } from "../systems/CameraToggleSystem.js";
 import { GLTFLoader } from "../../../build/jsm/loaders/GLTFLoader.js";
-import { createGroundPlane } from "../../../libs/util/util.js";
 
 const SCALE = 500;
 

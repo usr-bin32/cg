@@ -4,6 +4,7 @@ import KeyboardState from "../libs/util/KeyboardState.js";
 import { InspectionState } from "./engine/states/InspectionState.js";
 import { World } from "./engine/World.js";
 import * as utils from "../libs/util/util.js";
+import { SimulationState } from "./engine/states/SimulationState.js";
 
 
 function main() {
@@ -21,7 +22,8 @@ function main() {
 
   // Initialize world and its state.
   const initialState = InspectionState.build(renderer);
-  const world = new World(initialState, input);
+  const altState = SimulationState.build();
+  const world = new World(initialState, input, altState);
 
   window.addEventListener("resize", function () {
     utils.onWindowResize(world.camera, renderer);
