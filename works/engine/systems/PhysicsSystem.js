@@ -14,7 +14,7 @@ export class PhysicsSystem {
         if (entity.controls) {
             const controls = entity.controls;
 
-            const factor = Math.pow(Math.min(physics.velocity.x, MIN_VEL) / MIN_VEL, 3);
+            const factor = Math.pow(Math.min(physics.velocity.x, MIN_VEL) / MIN_VEL, 4);
             physics.angularVelocity.x = controls.roll * 2.75 * factor;
             physics.angularVelocity.y = controls.yaw * 2 * factor;
             physics.angularVelocity.z = controls.pitch * 0.6 * factor;
