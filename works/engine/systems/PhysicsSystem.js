@@ -13,7 +13,7 @@ export class PhysicsSystem {
             const controls = entity.controls;
 
             physics.angularVelocity.x = controls.roll * 2.75;
-            physics.angularVelocity.y = controls.yaw * 1.25;
+            physics.angularVelocity.y = controls.yaw * 3;
             physics.angularVelocity.z = controls.pitch * 0.6;
 
             // Make velocity more perceivable.
@@ -54,6 +54,7 @@ export class PhysicsSystem {
             camera.rotation.z = 0;
         }
 
+        console.log(object.position);
         // Translation
         object.position.add(
             physics.velocity

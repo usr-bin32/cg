@@ -1,6 +1,5 @@
 import * as THREE from "../../../build/three.module.js";
 
-import * as utils from "../../../libs/util/util.js";
 import { GameState } from "../World.js";
 import { MovingPartsSystem } from "../systems/MovingPartsSystem.js";
 import { ControlsSystem } from "../systems/ControlsSystem.js";
@@ -8,15 +7,18 @@ import { ModeSystem } from "../systems/ModeSystem.js";
 import { PhysicsSystem } from "../systems/PhysicsSystem.js";
 import { SimulationAircraft } from "../entities/SimulationAircraft.js";
 import { CameraToggleSystem } from "../systems/CameraToggleSystem.js";
+import { GLTFLoader } from "../../../build/jsm/loaders/GLTFLoader.js";
+
+const SCALE = 500;
 
 export const SimulationState = {
   build: function () {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
-      60,
+      65,
       window.innerWidth / window.innerHeight,
       0.1,
-      50000
+      500000
     );
     camera.rotation.y = -Math.PI / 2;
     camera.position.y = 2.5;
@@ -31,13 +33,19 @@ export const SimulationState = {
       child.castShadow = true;
     });
 
-    aircraft.object.position.set(0, 5, 0);
+    aircraft.object.position.set(0, 2, 0);
+    aircraft.object.rotation.set(0, Math.PI / 2, 0);
     aircraft.object.add(cameraHolder);
     scene.add(aircraft.object);
 
-    const ground = utils.createGroundPlaneWired(50000, 50000);
-    ground.receiveShadow = true;
-    scene.add(ground);
+    (() => {
+      const loader = new GLTFLoader();
+      loader.load("engine/assets/mountains.glb", (gltf) => {
+        gltf.scene.scale.set(SCALE, SCALE, SCALE);
+        gltf.scene.receiveShadow = true;
+        scene.add(gltf.scene);
+      });
+    })();
 
     addLighting(scene, aircraft.object);
 
@@ -49,7 +57,7 @@ export const SimulationState = {
         new MovingPartsSystem(),
         new PhysicsSystem(),
         new ModeSystem(),
-        new CameraToggleSystem()
+        new CameraToggleSystem(),
       ],
       [aircraft]
     );
@@ -58,14 +66,14 @@ export const SimulationState = {
   },
 };
 
-function addLighting(scene, target, position = new THREE.Vector3(0, 10000, 12500)) {
-  const ambientLight = new THREE.HemisphereLight(
-    'white',
-    'darkslategrey',
-    0.5,
-  );
+function addLighting(
+  scene,
+  target,
+  position = new THREE.Vector3(0, 100000, 125000)
+) {
+  const ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 0.5);
 
-  const sunLight = new THREE.DirectionalLight('white', 0.8);
+  const sunLight = new THREE.DirectionalLight("white", 0.8);
   sunLight.position.copy(position);
   sunLight.target = target;
   sunLight.castShadow = true;
