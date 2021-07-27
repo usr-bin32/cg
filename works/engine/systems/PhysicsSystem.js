@@ -1,5 +1,7 @@
 import * as THREE from "../../../build/three.module.js";
 
+const MIN_VEL = 100;
+
 export class PhysicsSystem {
     update(entity, world, dt) {
         if (!entity.physics || !entity.object) {
@@ -12,16 +14,21 @@ export class PhysicsSystem {
         if (entity.controls) {
             const controls = entity.controls;
 
-            physics.angularVelocity.x = controls.roll * 2.75;
-            physics.angularVelocity.y = controls.yaw * 3;
-            physics.angularVelocity.z = controls.pitch * 0.6;
+            const factor = Math.pow(Math.min(physics.velocity.x, MIN_VEL) / MIN_VEL, 3);
+            physics.angularVelocity.x = controls.roll * 2.75 * factor;
+            physics.angularVelocity.y = controls.yaw * 2 * factor;
+            physics.angularVelocity.z = controls.pitch * 0.6 * factor;
 
             // Make velocity more perceivable.
             const scaleFactor = 2.5;
             const targetVelocity =
                 (controls.throttle - Math.abs(controls.yaw)) * 555 * scaleFactor;
+
             physics.acceleration.x =
                 (targetVelocity - physics.velocity.x) / 750;
+            if (physics.velocity.x < MIN_VEL) {
+                physics.acceleration.x /= 10;
+            }
         }
 
         physics.velocity.x += physics.acceleration.x;
@@ -54,7 +61,6 @@ export class PhysicsSystem {
             camera.rotation.z = 0;
         }
 
-        console.log(object.position);
         // Translation
         object.position.add(
             physics.velocity
