@@ -9,31 +9,34 @@ import { SimulationAircraft } from "../entities/SimulationAircraft.js";
 import { CameraToggleSystem } from "../systems/CameraToggleSystem.js";
 import { GLTFLoader } from "../../../build/jsm/loaders/GLTFLoader.js";
 import { Checkpoint } from "../entities/Checkpoint.js";
+import { CheckpointSystem } from "../systems/CheckpointSystem.js";
 
 const WORLD_SCALE = 500;
-const CHECKPOINT_DATA = [
+const checkpointData = [
     { position: new THREE.Vector3(1.842992734766871e-13, 54.23904337146913, -1186.221159830944), rotation: new THREE.Euler(0, 1.5707963267948966, 0.00677889348841733) },
     { position: new THREE.Vector3(340.09340183551456, 55.378436034323734, -2343.432509515879), rotation: new THREE.Euler(0, 1.1175957071474696, 0.0000221322785002878) },
     { position: new THREE.Vector3(1221.9732237830194, 328.23248603953937, -4142.826175386505), rotation: new THREE.Euler(0, 1.1148939965198787, 0.03295912989639409) },
     { position: new THREE.Vector3(1888.72703712841, 380.6101859477976, -7556.189468068657), rotation: new THREE.Euler(0, 1.8085450762592727, 0.00002425225563053323) },
+    { position: new THREE.Vector3(600.4186991733983, 389.6123492572262, -8824.715312174874), rotation: new THREE.Euler(0, 2.569935963993944, 0.10215107159626527) },
     { position: new THREE.Vector3(-1692.7035235881408, 1533.9453118671179, -12473.039117459497), rotation: new THREE.Euler(0, 1.8440400508613075, 0.07456083318768987) },
     { position: new THREE.Vector3(-878.6464786145998, 1577.1148748136372, -15532.206846421366), rotation: new THREE.Euler(0, 0.9376717088852572, 0.00027276236890109784) },
     { position: new THREE.Vector3(2343.002368424772, 1577.2750278901563, -15932.305471444584), rotation: new THREE.Euler(0, -0.4725296662722425, 5.729883161657346e-7) },
     { position: new THREE.Vector3(4870.066427385172, 666.377205368642, -13711.741637381745), rotation: new THREE.Euler(0, -1.0931203032747443, -0.1569373124389067) },
+    { position: new THREE.Vector3(3110.716579669615, 423.2139639637894, -8074.288219835306), rotation: new THREE.Euler(0, -2.0117620965619465, -0.006499044164082586) },
 ];
 
 export const SimulationState = {
     build: function () {
         const scene = new THREE.Scene();
 
-        for (const c of CHECKPOINT_DATA) {
+        const checkpoints = checkpointData.map((c) => {
+            // Undo aircraft rotation.
             c.rotation.y -= 1.5707963267948966;
-
-            const checkpoint = Checkpoint.build();
-            checkpoint.object.position.copy(c.position);
-            checkpoint.object.rotation.copy(c.rotation);
+            const checkpoint = Checkpoint.build(c.position, c.rotation);
             scene.add(checkpoint.object);
-        }
+
+            return checkpoint;
+        });
 
         (() => {
             const loader = new GLTFLoader();
@@ -47,7 +50,6 @@ export const SimulationState = {
                 (() => {
                     const loader = new GLTFLoader();
                     loader.load("engine/assets/tree1.glb", (treeGltf) => {
-                        const raycaster = new THREE.Raycaster();
 
                         treeGltf.scene.traverse((child) => {
                             child.castShadow = true;
@@ -66,6 +68,7 @@ export const SimulationState = {
                             scene.add(tree);
 
                             // TODO: fix raycasting.
+                            // const raycaster = new THREE.Raycaster();
                             // const obj = terrainGltf.scene.children[0].children[0];
                             // const rayOrigin = new THREE.Vector3(dx, -20, dz);
                             // const rayOrientation = new THREE.Vector3(0, 1, 0);
@@ -121,6 +124,7 @@ export const SimulationState = {
                 new PhysicsSystem(),
                 new ModeSystem(),
                 new CameraToggleSystem(),
+                new CheckpointSystem(aircraft, checkpoints)
             ],
             [aircraft]
         );
