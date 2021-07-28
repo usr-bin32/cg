@@ -55,7 +55,7 @@ export const SimulationState = {
                             child.castShadow = true;
                         });
 
-                        for (let i = 0; i < 2000; i++) {
+                        for (let i = 0; i < 500; i++) {
                             const tree = treeGltf.scene.clone();
 
                             const scale = Math.random() + 3;

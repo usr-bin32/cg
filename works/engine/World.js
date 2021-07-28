@@ -30,7 +30,9 @@ export class World {
   update(dt) {
     for (const system of this.systems) {
       for (const entity of this.entities) {
-        system.update(entity, this, dt);
+        if (system.update(entity, this, dt) === false) {
+          break;
+        }
       }
     }
   }
