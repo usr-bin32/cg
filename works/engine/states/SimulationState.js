@@ -38,7 +38,7 @@ export const SimulationState = {
 
               const scale = Math.random() + 3;
               const dx = (Math.random() * 2 - 1) * 15;
-              const dz = ((Math.random() * 2 - 1) * 20 - 2.5);
+              const dz = (-Math.random() * 20 - 2.5);
 
               const obj = terrainGltf.scene.children[0].children[0];
               const rayOrigin = new THREE.Vector3(dx, -20, dz);
