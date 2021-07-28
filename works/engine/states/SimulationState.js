@@ -62,7 +62,7 @@ export const SimulationState = {
                 color: "orange",
                 transparent: true,
                 opacity: 0.5,
-                side: THREE.DoubleSide
+                side: THREE.FrontSide
             });
 
             const ribbon = new THREE.Mesh(ribbonGeometry, ribbonMaterial);
