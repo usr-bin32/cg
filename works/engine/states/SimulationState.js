@@ -33,30 +33,33 @@ export const SimulationState = {
               child.castShadow = true;
             });
 
-            for (let i = 0; i < 1000; i++) {
+            for (let i = 0; i < 2000; i++) {
               const tree = treeGltf.scene.clone();
 
               const scale = Math.random() + 3;
-              const dx = (Math.random() * 2 - 1) * 15;
-              const dz = (-Math.random() * 20 - 2.5);
+              const dx = (Math.random() * 2 - 1) * 8;
+              const dz = (Math.random() * 2 - 1) * 20 - 21.15;
 
-              const obj = terrainGltf.scene.children[0].children[0];
-              const rayOrigin = new THREE.Vector3(dx, -20, dz);
-              const rayOrientation = new THREE.Vector3(0, 1, 0);
+              tree.scale.set(scale, scale, scale);
+              tree.translateX(dx * WORLD_SCALE);
+              tree.translateZ(dz * WORLD_SCALE);
+              scene.add(tree);
 
-              raycaster.set(rayOrigin, rayOrientation);
-              const intersections = raycaster.intersectObject(obj);
-
-              if (intersections.length > 0) {
-                tree.scale.set(scale, scale, scale);
-                tree.translateX(dx * WORLD_SCALE);
-                // TODO: Y detection
-                tree.translateZ(dz * WORLD_SCALE);
-
-                scene.add(tree);
-              } else {
-                i--;
-              }
+              // TODO: fix raycasting.
+              // const obj = terrainGltf.scene.children[0].children[0];
+              // const rayOrigin = new THREE.Vector3(dx, -20, dz);
+              // const rayOrientation = new THREE.Vector3(0, 1, 0);
+              // raycaster.set(rayOrigin, rayOrientation);
+              // const intersections = raycaster.intersectObject(obj);
+              // if (intersections.length > 0) {
+              //   tree.scale.set(scale, scale, scale);
+              //   tree.translateX(dx * 10 * WORLD_SCALE);
+              //   tree.translateY(dx * 10 * WORLD_SCALE);
+              //   tree.translateZ(dz * 10 * WORLD_SCALE);
+              //   scene.add(tree);
+              // } else {
+              //   i--;
+              // }
             }
           });
         })();
@@ -127,7 +130,7 @@ function addLighting(
   sunLight.shadow.camera.top = d;
   sunLight.shadow.camera.bottom = -d;
   sunLight.shadow.camera.near = 0.1;
-  sunLight.shadow.camera.far = 100000;
+  sunLight.shadow.camera.far = 1000000;
 
   scene.add(ambientLight);
   scene.add(sunLight);
