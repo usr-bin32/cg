@@ -144,8 +144,8 @@ function addLighting(
     sunLight.position.copy(position);
     sunLight.target = target;
     sunLight.castShadow = true;
-    sunLight.shadow.mapSize.width = 2048 * 4;
-    sunLight.shadow.mapSize.height = 2048 * 4;
+    sunLight.shadow.mapSize.width = 2048 * 2;
+    sunLight.shadow.mapSize.height = 2048 * 2;
 
     const d = 500;
     sunLight.shadow.camera.visible = true;
