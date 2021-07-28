@@ -14,19 +14,19 @@ export class PhysicsSystem {
         if (entity.controls) {
             const controls = entity.controls;
 
-            const factor = Math.pow(Math.min(physics.velocity.x, MIN_VEL) / MIN_VEL, 8);
-            physics.angularVelocity.x = controls.roll * 2.75 * factor * factor;
-            physics.angularVelocity.y = controls.yaw * 2 * factor;
-            physics.angularVelocity.z = controls.pitch * 0.6 * factor;
+            const factor = Math.min(physics.velocity.x, MIN_VEL) / MIN_VEL;
+            physics.angularVelocity.x = controls.roll * 2.75 * Math.pow(factor, 10);
+            physics.angularVelocity.y = controls.yaw * 2 * Math.pow(factor, 0.5);
+            physics.angularVelocity.z = controls.pitch * 0.6 * Math.pow(factor, 10);
 
             // Make velocity more perceivable.
-            const scaleFactor = 2.5;
+            const scaleFactor = 2;
             const targetVelocity =
                 (controls.throttle - Math.abs(controls.yaw)) * 555 * scaleFactor;
 
             physics.acceleration.x =
                 (targetVelocity - physics.velocity.x) / 750;
-            if (physics.velocity.x < MIN_VEL) {
+            if (physics.velocity.x < MIN_VEL && targetVelocity > 0) {
                 physics.acceleration.x /= 10;
             }
         }

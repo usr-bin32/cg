@@ -5,7 +5,6 @@ export class CameraToggleSystem {
     }
 
     if (world.input.down("C")) {
-      console.log("DOWN");
       const cameraHolder = world.scene.getObjectByName("cameraHolder");
       const camera = cameraHolder.children[0];
 
