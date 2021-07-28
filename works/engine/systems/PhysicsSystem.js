@@ -15,12 +15,12 @@ export class PhysicsSystem {
             const controls = entity.controls;
 
             const factor = Math.min(physics.velocity.x, MIN_VEL) / MIN_VEL;
-            physics.angularVelocity.x = controls.roll * 2.75 * Math.pow(factor, 10);
+            physics.angularVelocity.x = controls.roll * 2.5 * Math.pow(factor, 10);
             physics.angularVelocity.y = controls.yaw * 2 * Math.pow(factor, 0.5);
             physics.angularVelocity.z = controls.pitch * 0.6 * Math.pow(factor, 10);
 
             // Make velocity more perceivable.
-            const scaleFactor = 2;
+            const scaleFactor = 1.5;
             const targetVelocity =
                 (controls.throttle - Math.abs(controls.yaw)) * 555 * scaleFactor;
 
@@ -60,6 +60,11 @@ export class PhysicsSystem {
             camera.rotation.y = 0;
             camera.rotation.z = 0;
         }
+
+        // Checkpoint Builder
+        // if (world.input.down("shift")) {
+        //     console.log(`{ position: new THREE.Vector3(${object.position.x}, ${object.position.y}, ${object.position.z}), rotation: new THREE.Euler(${object.rotation.x}, ${object.rotation.y}, ${object.rotation.z}) },`);
+        // }
 
         // Translation
         object.position.add(

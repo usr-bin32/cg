@@ -10,7 +10,7 @@ export class CameraToggleSystem {
 
       entity.cameraState.cockpit = !entity.cameraState.cockpit;
       if (entity.cameraState.cockpit) {
-        cameraHolder.position.set(22.4, 0, 0);
+        cameraHolder.position.set(22.3, 0, 0);
         camera.position.y = 0.75;
       } else {
         cameraHolder.position.set(0, 0, 0);
