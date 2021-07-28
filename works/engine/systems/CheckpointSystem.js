@@ -35,6 +35,7 @@ export class CheckpointSystem {
         });
 
         document.getElementById("time").innerText = `${currentTime.toFixed(3)} s (${this.lastTime.toFixed(3)})`;
+        document.getElementById("progress").innerText = `${this.currentIndex}/${this.checkpoints.length}`;
 
         return false;
     }

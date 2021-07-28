@@ -10,6 +10,7 @@ import { CameraToggleSystem } from "../systems/CameraToggleSystem.js";
 import { GLTFLoader } from "../../../build/jsm/loaders/GLTFLoader.js";
 import { Checkpoint } from "../entities/Checkpoint.js";
 import { CheckpointSystem } from "../systems/CheckpointSystem.js";
+import { PathToggleSystem } from "../systems/PathToggleSystem.js";
 
 const WORLD_SCALE = 500;
 const checkpointData = [
@@ -37,6 +38,39 @@ export const SimulationState = {
 
             return checkpoint;
         });
+
+        // Path
+        const path = (() => {
+            const ribbonBase = new THREE.CatmullRomCurve3(checkpointData.map((c) => c.position));
+
+            const hh = 0.0625 * 100;
+            const hw = 0.001 * 500;
+            const profile = new THREE.Shape([
+                new THREE.Vector2(-hw, -hh),
+                new THREE.Vector2(-hw, hh),
+                new THREE.Vector2(hw, hh),
+                new THREE.Vector2(hw, -hh),
+                new THREE.Vector2(-hw, -hh)
+            ]);
+
+            const ribbonGeometry = new THREE.ExtrudeGeometry(profile, {
+                steps: 800,
+                bevelEnabled: false,
+                extrudePath: ribbonBase
+            });
+            const ribbonMaterial = new THREE.MeshBasicMaterial({
+                color: "orange",
+                transparent: true,
+                opacity: 0.5,
+                side: THREE.DoubleSide
+            });
+
+            const ribbon = new THREE.Mesh(ribbonGeometry, ribbonMaterial);
+            ribbon.visible = false;
+            scene.add(ribbon);
+
+            return ribbon;
+        })();
 
         (() => {
             const loader = new GLTFLoader();
@@ -124,7 +158,8 @@ export const SimulationState = {
                 new PhysicsSystem(),
                 new ModeSystem(),
                 new CameraToggleSystem(),
-                new CheckpointSystem(aircraft, checkpoints)
+                new CheckpointSystem(aircraft, checkpoints),
+                new PathToggleSystem(path)
             ],
             [aircraft]
         );

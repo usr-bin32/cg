@@ -1,16 +1,10 @@
 import * as THREE from "../../../build/three.module.js";
 
-const defaultMaterial = new THREE.MeshPhongMaterial({
+const defaultMaterial = new THREE.MeshBasicMaterial({
     color: 'orange',
     transparent: true,
-    opacity: 0.7
+    opacity: 0.5
 });
-const nextMaterial = new THREE.MeshPhongMaterial({
-    color: 'yellow',
-    transparent: true,
-    opacity: 0.7
-});
-
 export const Checkpoint = {
     build: function (position, rotation) {
         const geometry = new THREE.TorusBufferGeometry(30, 1.5, 64, 64);

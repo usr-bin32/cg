@@ -1,13 +1,11 @@
 export class ModeSystem {
   update(entity, world, dt) {
-    if (!entity.movingParts || !entity.controls) {
-      return;
+    if (world.input.down("space")) {
+      world.setState(world.prevState);
+      world.info = !world.info;
+      document.getElementById("info").style.display = (!world.info) ? "none" : "inherit";
     }
 
-    if (world.input.down("space")) {
-      if (world.prevState) {
-        world.setState(world.prevState);
-      }
-    }
+    return false;
   }
 }

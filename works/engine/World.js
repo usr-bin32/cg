@@ -2,6 +2,7 @@ export class World {
   constructor(state, input, prevState = null) {
     this.state = state;
     this.prevState = prevState;
+    this.info = false;
 
     this.input = input;
   }
