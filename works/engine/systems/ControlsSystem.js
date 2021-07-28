@@ -111,6 +111,9 @@ export class ControlsSystem {
 
         controls.yaw = -aircraft.rotation.x / 8 - controls.rudderYaw / 20;
         controls.elevonPitch = -Math.abs(aircraft.rotation.x) + -controls.pitch;
+
+        // Draw info.
+        document.getElementById("throttle").innerText = `${(controls.throttle * 100).toFixed(0)} %`;
     }
 }
 

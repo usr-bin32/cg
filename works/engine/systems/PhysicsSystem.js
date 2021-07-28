@@ -73,5 +73,10 @@ export class PhysicsSystem {
                 .applyEuler(object.rotation)
                 .multiplyScalar(dt)
         );
+
+        
+        // Draw info.
+        document.getElementById("speed").innerText = `${(physics.velocity.x * 3.6).toFixed(0)} km/h`;
+        document.getElementById("altitude").innerText = `${(object.position.y - 1.5).toFixed(0)} m`;
     }
 }
