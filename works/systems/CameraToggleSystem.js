@@ -1,9 +1,5 @@
-export class CameraToggleSystem {
+class CameraToggleSystem {
   update(entity, world, dt) {
-    if (!entity.cameraState) {
-      return;
-    }
-
     if (world.input.down("C")) {
       const cameraHolder = world.scene.getObjectByName("cameraHolder");
       const camera = cameraHolder.children[0];
@@ -19,3 +15,5 @@ export class CameraToggleSystem {
     }
   }
 }
+
+export { CameraToggleSystem };

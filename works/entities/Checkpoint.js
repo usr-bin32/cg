@@ -5,6 +5,7 @@ const defaultMaterial = new THREE.MeshBasicMaterial({
     transparent: true,
     opacity: 0.5
 });
+
 export const Checkpoint = {
     build: function (position, rotation) {
         const geometry = new THREE.TorusBufferGeometry(30, 1.5, 64, 64);
