@@ -1,12 +1,12 @@
 import * as THREE from "../../build/three.module.js";
 
-import { Mirage } from "../assets/Mirage.js";
+import { Mirage } from "../assets/mirage.js";
 import { Controls } from "../systems/controls.js";
-import { MovingParts } from "../systems/moving-parts";
+import { MovingParts } from "../systems/moving-parts.js";
 
 class InspectionAircraft {
   constructor() {
-    const aircraft = Mirage.build();
+    const aircraft = Mirage();
 
     this.object = new THREE.Object3D();
     this.object.add(aircraft);

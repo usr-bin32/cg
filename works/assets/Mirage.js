@@ -1,4 +1,4 @@
-import * as THREE from "../../../build/three.module.js";
+import * as THREE from "../../build/three.module.js";
 
 const BACK_TUBE_LEN = 188;
 const MAIN_TUBE_LEN = 595;
@@ -10,26 +10,24 @@ const NOSE1_LEN = 60;
 const NOSE2_LEN = 60;
 const NOSE3_LEN = 120;
 
-export const Mirage = {
-  build: function () {
-    const aircraft = new THREE.Object3D();
+const Mirage = () => {
+  const aircraft = new THREE.Object3D();
 
-    // Convert to meters.
-    const scale = 9.2 / 1102;
-    aircraft.rotateY(Math.PI);
-    aircraft.translateX(785 * scale);
-    aircraft.scale.set(scale, scale, scale);
+  // Convert to meters.
+  const scale = (9.2 / 1102);
+  aircraft.rotateY(Math.PI);
+  aircraft.translateX(785 * scale);
+  aircraft.scale.set(scale, scale, scale);
 
-    aircraft.add(tail());
-    aircraft.add(mainTube());
-    aircraft.add(leftWing());
-    aircraft.add(rightWing());
+  aircraft.add(tail());
+  aircraft.add(mainTube());
+  aircraft.add(leftWing());
+  aircraft.add(rightWing());
 
-    const aircraftHolder = new THREE.Object3D();
-    aircraftHolder.add(aircraft);
+  const aircraftHolder = new THREE.Object3D();
+  aircraftHolder.add(aircraft);
 
-    return aircraftHolder;
-  },
+  return aircraftHolder;
 };
 
 const fuselageMaterial = new THREE.MeshPhongMaterial({
@@ -404,7 +402,12 @@ function canopyFront() {
   const geometry = new THREE.CylinderGeometry(56, 40, len, 64, 64);
   const object = new THREE.Mesh(geometry, [
     canopyMaterial,
-    new THREE.MeshPhongMaterial({ color: 0x000000, transparent: true, opacity: 0.3, refractionRatio: 0.8 }),
+    new THREE.MeshPhongMaterial({
+      color: 0x000000,
+      transparent: true,
+      opacity: 0.3,
+      refractionRatio: 0.8,
+    }),
   ]);
 
   object.translateY(-len / 2 - CANOPY_BACK_LEN / 2);
@@ -501,3 +504,5 @@ function pitotTube() {
 
   return object;
 }
+
+export { Mirage };

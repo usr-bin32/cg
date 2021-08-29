@@ -2,7 +2,7 @@ import * as THREE from "../../build/three.module.js";
 
 import { GameState } from "../world.js";
 import { MovingPartsSystem } from "../engine/systems/MovingPartsSystem.js";
-import { ControlsSystem } from "../engine/systems/ControlsSystem.js";
+import { ControlsSystem } from "../systems/controls.js";
 import { ModeSystem } from "../engine/systems/mode.js";
 import { PhysicsSystem } from "../engine/systems/PhysicsSystem.js";
 import { SimulationAircraft } from "../engine/entities/SimulationAircraft.js";

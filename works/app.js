@@ -1,7 +1,7 @@
 import * as THREE from "../build/three.module.js";
 import * as utils from "../libs/util/util.js";
 
-import { InspectionState } from "./scenes/inspection.js";
+import { InspectionScene } from "./scenes/inspection.js";
 import { World } from "./world.js";
 
 function main() {
@@ -18,11 +18,11 @@ function main() {
     utils.onWindowResize(world.scene.camera, renderer);
   });
 
-  const world = new World(renderer, new InspectionState(renderer));
+  const world = new World(renderer, new InspectionScene(renderer));
 
   function render() {
     world.update();
-    renderer.render(world.scene, world.camera);
+    renderer.render(world.scene.scene, world.scene.camera);
 
     requestAnimationFrame(render);
   }

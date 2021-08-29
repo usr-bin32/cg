@@ -3,7 +3,7 @@ const PITCH_ACC = 2;
 const ROLL_ACC = 1.5;
 const RUDDER_ACC = 1.5;
 
-export class Controls {
+class Controls {
   constructor() {
     this.rudderYaw = 0;
     this.elevonPitch = 0;
@@ -15,14 +15,14 @@ export class Controls {
   }
 }
 
-export class ControlsSystem {
-  update(entity, world, dt) {
-    if (!entity.controls || !entity.object) {
-      return;
-    }
+class ControlsSystem {
+  constructor(entity) {
+    this.entity = entity;
+  }
 
-    const controls = entity.controls;
-    const object = entity.object;
+  update(world, dt) {
+    const controls = this.entity.controls;
+    const object = this.entity.object;
     const aircraft = object.children[0];
 
     // Throttle
@@ -70,7 +70,7 @@ export class ControlsSystem {
       controls.pitch = updateValue(controls.pitch, targetVel, PITCH_ACC * dt);
     }
 
-    // Extra
+    // Rudder yaw.
     const maxRudderYaw = Math.PI / 2 - Math.abs(aircraft.rotation.x);
     if (world.input.pressed("Z")) {
       controls.rudderYaw = Math.min(
@@ -115,3 +115,5 @@ function updateValue(current, target, delta, tolerance = 0.01) {
     return target;
   }
 }
+
+export { Controls, ControlsSystem };

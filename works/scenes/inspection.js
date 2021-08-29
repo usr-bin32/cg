@@ -2,8 +2,8 @@ import * as THREE from "../../build/three.module.js";
 import * as utils from "../../libs/util/util.js";
 import { OrbitControls } from "../../build/jsm/controls/OrbitControls.js";
 
-import { SimulationScene } from "./simulation.js";
-import { InspectionAircraft } from "../engine/entities/inspection-aircraft.js";
+// import { SimulationScene } from "./simulation.js";
+import { InspectionAircraft } from "../entities/inspection-aircraft.js";
 import { ControlsSystem } from "../systems/controls.js";
 import { ModeSystem } from "../systems/mode.js";
 import { MovingPartsSystem } from "../systems/moving-parts.js";
@@ -16,20 +16,20 @@ class InspectionScene {
     this.camera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000);
     this.camera.position.z = 20;
 
-    const aircraft = InspectionAircraft.build();
+    const aircraft = new InspectionAircraft();
 
-    scene.add(camera);
-    scene.add(aircraft.object);
+    this.scene.add(this.camera);
+    this.scene.add(aircraft.object);
 
-    utils.initDefaultBasicLight(scene, true);
+    utils.initDefaultBasicLight(this.scene, true);
 
     this.systems = [
-      new MovingPartsSystem(aircraft),
       new ControlsSystem(aircraft),
-      new ModeSystem(new SimulationScene(this)),
+      new MovingPartsSystem(aircraft),
+      new ModeSystem(null /*new SimulationScene(this)*/),
     ];
 
-    new OrbitControls(camera, renderer.domElement);
+    new OrbitControls(this.camera, renderer.domElement);
   }
 
   activate() {
