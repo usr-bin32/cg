@@ -1,11 +1,22 @@
+class CameraState {
+  constructor() {
+    this.cockpit = false;
+  }
+}
+
 class CameraToggleSystem {
-  update(entity, world, dt) {
+  constructor(entity) {
+    this.entity = entity;
+  }
+
+  update(world) {
     if (world.input.down("C")) {
       const cameraHolder = world.scene.getObjectByName("cameraHolder");
       const camera = cameraHolder.children[0];
+      const cameraState = this.entity.cameraState;
 
-      entity.cameraState.cockpit = !entity.cameraState.cockpit;
-      if (entity.cameraState.cockpit) {
+      cameraState.cockpit = !cameraState.cockpit;
+      if (cameraState.cockpit) {
         cameraHolder.position.set(22.3, 0, 0);
         camera.position.y = 0.75;
       } else {
@@ -16,4 +27,4 @@ class CameraToggleSystem {
   }
 }
 
-export { CameraToggleSystem };
+export { CameraState, CameraToggleSystem };

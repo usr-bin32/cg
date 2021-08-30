@@ -1,8 +1,8 @@
 import * as THREE from "../../build/three.module.js";
 
 import { Mirage } from "../assets/mirage.js";
-import { Controls } from "../systems/controls.js";
-import { MovingParts } from "../systems/moving-parts.js";
+import { Controls } from "../systems/control.js";
+import { MovingParts } from "../systems/moving-part.js";
 
 class InspectionAircraft {
   constructor() {

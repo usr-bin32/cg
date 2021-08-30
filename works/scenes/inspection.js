@@ -2,11 +2,11 @@ import * as THREE from "../../build/three.module.js";
 import * as utils from "../../libs/util/util.js";
 import { OrbitControls } from "../../build/jsm/controls/OrbitControls.js";
 
-// import { SimulationScene } from "./simulation.js";
+import { SimulationScene } from "./simulation.js";
 import { InspectionAircraft } from "../entities/inspection-aircraft.js";
-import { ControlsSystem } from "../systems/controls.js";
+import { ControlsSystem } from "../systems/control.js";
 import { ModeSystem } from "../systems/mode.js";
-import { MovingPartsSystem } from "../systems/moving-parts.js";
+import { MovingPartsSystem } from "../systems/moving-part.js";
 
 class InspectionScene {
   constructor(renderer) {
@@ -26,7 +26,7 @@ class InspectionScene {
     this.systems = [
       new ControlsSystem(aircraft),
       new MovingPartsSystem(aircraft),
-      new ModeSystem(null /*new SimulationScene(this)*/),
+      new ModeSystem(new SimulationScene(this)),
     ];
 
     new OrbitControls(this.camera, renderer.domElement);
