@@ -3,6 +3,7 @@ import { GLTFLoader } from "../../build/jsm/loaders/GLTFLoader.js";
 import { MTLLoader } from "../../build/jsm/loaders/MTLLoader.js";
 import { OBJLoader } from "../../build/jsm/loaders/OBJLoader.js";
 
+import * as buildings from "../assets/buildings.js";
 import { Checkpoint } from "../entities/checkpoint.js";
 import { SimulationAircraft } from "../entities/simulation-aircraft.js";
 import { MovingPartsSystem } from "../systems/moving-parts.js";
@@ -36,12 +37,12 @@ class SimulationScene {
   constructor(nextScene, renderer) {
     const scene = new THREE.Scene();
 
-    // const loader = new THREE.TextureLoader();
-    // const texture = loader.load("assets/sky.png", () => {
-    //   const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
-    //   rt.fromEquirectangularTexture(renderer, texture);
-    //   scene.background = rt.texture;
-    // });
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load("assets/sky.png", () => {
+      const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
+      rt.fromEquirectangularTexture(renderer, texture);
+      scene.background = rt.texture;
+    });
 
     const checkpoints = checkpointData.map((c) => {
       // Undo aircraft rotation.
@@ -121,7 +122,7 @@ class SimulationScene {
 
       object.translateZ(-25);
       object.translateX(15);
-      object.rotateY(-4 * Math.PI / 3);
+      object.rotateY((-4 * Math.PI) / 3);
 
       scene.add(object);
     });
@@ -144,10 +145,26 @@ class SimulationScene {
       child.castShadow = true;
     });
 
+    const building = buildings.BuildingA();
+    building.translateZ(-200);
+    building.rotateY((-4 * Math.PI) / 3);
+
+    // Temp plane
+    (() => {
+      const geometry = new THREE.PlaneBufferGeometry(50000, 50000);
+      const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, color: "darkgrey" });
+      const mesh = new THREE.Mesh(geometry, material);
+
+      mesh.rotateX(Math.PI / 2)
+
+      scene.add(mesh);
+    })();
+
     aircraft.object.position.set(0, 1.5, 0);
     aircraft.object.rotation.set(0, Math.PI / 2, 0);
     aircraft.object.add(cameraHolder);
     scene.add(aircraft.object);
+    scene.add(building);
 
     addLighting(scene, aircraft.object);
 
@@ -180,7 +197,7 @@ function addLighting(
   target,
   position = new THREE.Vector3(20000, 50000, 80000)
 ) {
-  const ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 0.5);
+  const ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 0.7);
 
   const sunLight = new THREE.DirectionalLight("white", 0.8);
   sunLight.position.copy(position);

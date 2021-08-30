@@ -99,14 +99,14 @@ function tail() {
   rightCanard.rotateZ(Math.PI / 2 + 0.075);
 
   const sticker = new THREE.Mesh(
-    new THREE.PlaneBufferGeometry(600, 384),
+    new THREE.PlaneBufferGeometry(275, 193),
     new THREE.MeshPhongMaterial({
-      map: new THREE.TextureLoader().load("assets/braz.jpg"),
+      color: 0xA0A0A0,
+      map: new THREE.TextureLoader().load("assets/braz.png"),
       side: THREE.DoubleSide,
-      transparent: true,
     })
   );
-  sticker.scale.set(0.15, 0.15, 0.15);
+  sticker.scale.set(0.25, 0.25, 0.25);
   sticker.translateZ(10);
   sticker.translateY(-25);
   sticker.translateX(-75);
@@ -206,8 +206,9 @@ function wing(side) {
   const object = new THREE.Mesh(geometry, fuselageMaterial);
 
   const sticker = new THREE.Mesh(
-    new THREE.PlaneBufferGeometry(800, 800),
+    new THREE.PlaneBufferGeometry(425, 425),
     new THREE.MeshPhongMaterial({
+      color: 0x647f9c,
       map: new THREE.TextureLoader().load("assets/round.png"),
       side: THREE.DoubleSide,
       transparent: true,
@@ -215,8 +216,8 @@ function wing(side) {
   );
   sticker.scale.set(0.2, 0.2, 0.2);
   sticker.translateZ(10);
-  sticker.translateY(-25);
-  sticker.translateX(-150);
+  sticker.translateY(-150);
+  sticker.translateX(-275);
 
   object.add(pylon());
   object.add(elevons(side));

@@ -17,12 +17,11 @@ class InspectionScene {
 
     const aircraft = new InspectionAircraft();
 
-    // const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
-    // const splotLight = new THREE.SpotLight(0xffffff, 0.75);
-    const spotLight = new THREE.SpotLight(0xffffff, 1);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
+    const spotLight = new THREE.SpotLight(0xffffff, 0.75);
 
     this.camera.add(spotLight);
-    // this.scene.add(ambientLight);
+    this.scene.add(ambientLight);
     this.scene.add(this.camera);
     this.scene.add(aircraft.object);
 

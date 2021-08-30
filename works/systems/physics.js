@@ -24,8 +24,8 @@ class PhysicsSystem {
       const controls = this.entity.controls;
 
       const factor = Math.min(physics.velocity.x, MIN_VEL) / MIN_VEL;
-      physics.angularVelocity.x = controls.roll * 2.5 * Math.pow(factor, 6);
-      physics.angularVelocity.y = controls.yaw * 2 * Math.pow(factor, 0.5);
+      physics.angularVelocity.x = controls.roll * 4 * Math.pow(factor, 6);
+      physics.angularVelocity.y = controls.yaw * 3 * Math.pow(factor, 0.5);
       physics.angularVelocity.z = controls.pitch * 0.6 * Math.pow(factor, 6);
 
       const targetVelocity =
