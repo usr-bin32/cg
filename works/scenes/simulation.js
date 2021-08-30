@@ -37,12 +37,12 @@ class SimulationScene {
   constructor(nextScene, renderer) {
     const scene = new THREE.Scene();
 
-    const loader = new THREE.TextureLoader();
-    const texture = loader.load("assets/sky.png", () => {
-      const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
-      rt.fromEquirectangularTexture(renderer, texture);
-      scene.background = rt.texture;
-    });
+    // const loader = new THREE.TextureLoader();
+    // const texture = loader.load("assets/sky.png", () => {
+    //   const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
+    //   rt.fromEquirectangularTexture(renderer, texture);
+    //   scene.background = rt.texture;
+    // });
 
     const checkpoints = checkpointData.map((c) => {
       // Undo aircraft rotation.
@@ -88,27 +88,27 @@ class SimulationScene {
       return ribbon;
     })();
 
-    (() => {
-      const loader = new GLTFLoader();
-      loader.load("assets/tree1.glb", (treeGltf) => {
-        treeGltf.scene.traverse((child) => {
-          child.castShadow = true;
-        });
+    // (() => {
+    //   const loader = new GLTFLoader();
+    //   loader.load("assets/tree1.glb", (treeGltf) => {
+    //     treeGltf.scene.traverse((child) => {
+    //       child.castShadow = true;
+    //     });
 
-        for (let i = 0; i < 500; i++) {
-          const tree = treeGltf.scene.clone();
+    //     for (let i = 0; i < 500; i++) {
+    //       const tree = treeGltf.scene.clone();
 
-          const scale = Math.random() + 3;
-          const dx = (Math.random() * 2 - 1) * 8;
-          const dz = (Math.random() * 2 - 1) * 20 - 21.15;
+    //       const scale = Math.random() + 3;
+    //       const dx = (Math.random() * 2 - 1) * 8;
+    //       const dz = (Math.random() * 2 - 1) * 20 - 21.15;
 
-          tree.scale.set(scale, scale, scale);
-          tree.translateX(dx * 500);
-          tree.translateZ(dz * 500);
-          scene.add(tree);
-        }
-      });
-    })();
+    //       tree.scale.set(scale, scale, scale);
+    //       tree.translateX(dx * 500);
+    //       tree.translateZ(dz * 500);
+    //       scene.add(tree);
+    //     }
+    //   });
+    // })();
 
     loadOBJ("../assets/objects/", "plane", (object) => {
       object.scale.set(0.15, 0.15, 0.15);
@@ -131,7 +131,7 @@ class SimulationScene {
       65,
       window.innerWidth / window.innerHeight,
       0.1,
-      500000
+      50000
     );
     camera.rotation.y = -Math.PI / 2;
     camera.position.y = 2.5;
@@ -145,17 +145,21 @@ class SimulationScene {
       child.castShadow = true;
     });
 
-    const building = buildings.BuildingA();
-    building.translateZ(-200);
+    var building = buildings.BuildingF();
+    building.translateZ(-150);
     building.rotateY((-4 * Math.PI) / 3);
+    scene.add(building);
 
     // Temp plane
     (() => {
       const geometry = new THREE.PlaneBufferGeometry(50000, 50000);
-      const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, color: "darkgrey" });
+      const material = new THREE.MeshBasicMaterial({
+        side: THREE.DoubleSide,
+        color: "darkgrey",
+      });
       const mesh = new THREE.Mesh(geometry, material);
 
-      mesh.rotateX(Math.PI / 2)
+      mesh.rotateX(Math.PI / 2);
 
       scene.add(mesh);
     })();
@@ -164,7 +168,6 @@ class SimulationScene {
     aircraft.object.rotation.set(0, Math.PI / 2, 0);
     aircraft.object.add(cameraHolder);
     scene.add(aircraft.object);
-    scene.add(building);
 
     addLighting(scene, aircraft.object);
 
