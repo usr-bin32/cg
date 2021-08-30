@@ -1,6 +1,6 @@
 import * as THREE from "../../build/three.module.js";
 
-const MIN_VEL = 200;
+const MIN_VEL = 100;
 const MAX_VEL = 555;
 
 class Physics {
@@ -24,16 +24,16 @@ class PhysicsSystem {
       const controls = this.entity.controls;
 
       const factor = Math.min(physics.velocity.x, MIN_VEL) / MIN_VEL;
-      physics.angularVelocity.x = controls.roll * 2.5 * Math.pow(factor, 8);
+      physics.angularVelocity.x = controls.roll * 2.5 * Math.pow(factor, 6);
       physics.angularVelocity.y = controls.yaw * 2 * Math.pow(factor, 0.5);
-      physics.angularVelocity.z = controls.pitch * 0.6 * Math.pow(factor, 4);
+      physics.angularVelocity.z = controls.pitch * 0.6 * Math.pow(factor, 6);
 
       const targetVelocity =
         (controls.throttle - Math.abs(controls.yaw)) * MAX_VEL;
 
-      physics.acceleration.x = (targetVelocity - physics.velocity.x) / 750;
+      physics.acceleration.x = (targetVelocity - physics.velocity.x) / 2000;
       if (physics.velocity.x < MIN_VEL && targetVelocity > 0) {
-        physics.acceleration.x = (physics.velocity.x + 20) * ((MAX_VEL - MIN_VEL) / 750) / MIN_VEL
+        physics.acceleration.x = (physics.velocity.x + 10) * ((MAX_VEL - MIN_VEL) / 2000) / MIN_VEL
       }
     }
 
@@ -81,7 +81,7 @@ class PhysicsSystem {
 
     // Draw info.
     document.getElementById("speed").innerText = `${(
-      physics.velocity.x
+      physics.velocity.x * 3.6
     ).toFixed(0)} km/h`;
     document.getElementById("altitude").innerText = `${(
       object.position.y - 1.5
