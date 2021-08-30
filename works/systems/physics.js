@@ -33,7 +33,7 @@ class PhysicsSystem {
 
       physics.acceleration.x = (targetVelocity - physics.velocity.x) / 1600;
       if (physics.velocity.x < MIN_VEL && targetVelocity > 0) {
-        physics.acceleration.x = (physics.velocity.x + 10) * ((MAX_VEL - MIN_VEL) / 1600) / MIN_VEL
+        physics.acceleration.x = (physics.velocity.x + 20) * ((MAX_VEL - MIN_VEL) / 1600) / MIN_VEL
       }
     }
 

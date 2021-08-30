@@ -34,6 +34,8 @@ const BuildingB = () => {
   object.add(mesh2);
   object.add(mesh3);
 
+  object.translateZ(-4.5);
+
   object.scale.set(2, 1, 2);
 
   return object;
@@ -64,24 +66,22 @@ const BuildingC = () => {
 };
 
 const BuildingD = () => {
-  var geometry = new THREE.BoxBufferGeometry(20, 70, 20);
+  var geometry = new THREE.BoxBufferGeometry(20, 40, 20);
   var material = new THREE.MeshPhongMaterial();
   const mesh1 = new THREE.Mesh(geometry, material);
-  mesh1.translateY(35);
+  mesh1.translateY(20);
 
   var geometry = new THREE.CylinderBufferGeometry(8, 8, 20, 3);
   var material = new THREE.MeshPhongMaterial();
   const mesh2 = new THREE.Mesh(geometry, material);
-  mesh2.translateX(-2.5);
-  mesh2.translateY(70);
+  mesh2.translateX(-3);
+  mesh2.translateY(40);
   mesh2.rotateX(-Math.PI / 2);
 
   const object = new THREE.Object3D();
   object.add(mesh1);
   object.add(mesh2);
   object.add(mesh2);
-
-  object.scale.set(2, 1, 2);
 
   return object;
 };

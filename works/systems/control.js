@@ -104,7 +104,7 @@ class ControlsSystem {
   }
 }
 
-function updateValue(current, target, delta, tolerance = 0.01) {
+function updateValue(current, target, delta, tolerance = 0.02) {
   if (Math.abs(current - target) > tolerance) {
     if (current < target) {
       return current + delta;

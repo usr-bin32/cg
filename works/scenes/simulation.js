@@ -4,6 +4,7 @@ import { MTLLoader } from "../../build/jsm/loaders/MTLLoader.js";
 import { OBJLoader } from "../../build/jsm/loaders/OBJLoader.js";
 
 import * as buildings from "../assets/buildings.js";
+import { Block } from "../assets/city.js";
 import { Checkpoint } from "../entities/checkpoint.js";
 import { SimulationAircraft } from "../entities/simulation-aircraft.js";
 import { MovingPartsSystem } from "../systems/moving-parts.js";
@@ -145,10 +146,10 @@ class SimulationScene {
       child.castShadow = true;
     });
 
-    var building = buildings.BuildingF();
-    building.translateZ(-150);
-    building.rotateY((-4 * Math.PI) / 3);
-    scene.add(building);
+    var block = Block();
+    block.translateZ(-250);
+    // block.rotateY((-4 * Math.PI) / 3);
+    scene.add(block);
 
     // Temp plane
     (() => {
