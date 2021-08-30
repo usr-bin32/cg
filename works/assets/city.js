@@ -5,6 +5,7 @@ import * as buildings from "./buildings.js";
 const Block = () => {
   const object = new THREE.Object3D();
   object.add(sectorA());
+  object.add(sectorB());
 
   object.add(pavementA());
   object.add(pavementB());
@@ -74,6 +75,60 @@ function sectorA() {
   var building = buildings.BuildingA();
   building.translateX(53 + 10);
   building.translateZ(74 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  return object;
+}
+
+function sectorB() {
+  const object = new THREE.Object3D();
+
+  var building = buildings.BuildingB();
+  building.translateX(87 + 10);
+  building.translateZ(12 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingA();
+  building.translateX(107 + 10);
+  building.translateZ(12 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingA();
+  building.translateX(87 + 10);
+  building.translateZ(53 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingD();
+  building.translateX(87 + 10);
+  building.translateZ(33 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingD();
+  building.translateX(128 + 10);
+  building.translateZ(12 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingE();
+  building.translateX(107 + 10);
+  building.translateZ(53 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingE();
+  building.translateX(107 + 10);
+  building.translateZ(53 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingF();
+  building.translateX(128 + 10);
+  building.translateZ(33 + 20);
   building.rotateY(Math.PI / 2);
   object.add(building);
 
