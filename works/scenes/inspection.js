@@ -1,5 +1,4 @@
 import * as THREE from "../../build/three.module.js";
-import * as utils from "../../libs/util/util.js";
 import { OrbitControls } from "../../build/jsm/controls/OrbitControls.js";
 
 import { SimulationScene } from "./simulation.js";
@@ -18,10 +17,14 @@ class InspectionScene {
 
     const aircraft = new InspectionAircraft();
 
+    // const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
+    // const splotLight = new THREE.SpotLight(0xffffff, 0.75);
+    const splotLight = new THREE.SpotLight(0xffffff, 1);
+
+    this.camera.add(splotLight);
+    // this.scene.add(ambientLight);
     this.scene.add(this.camera);
     this.scene.add(aircraft.object);
-
-    utils.initDefaultBasicLight(this.scene, true);
 
     this.systems = [
       new ControlsSystem(aircraft),
