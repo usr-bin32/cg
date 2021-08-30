@@ -31,8 +31,15 @@ const checkpointData = [
 ];
 
 class SimulationScene {
-  constructor(nextScene) {
+  constructor(nextScene, renderer) {
     const scene = new THREE.Scene();
+
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load("assets/sky.png", () => {
+      const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
+      rt.fromEquirectangularTexture(renderer, texture);
+      scene.background = rt.texture;
+    });
 
     const checkpoints = checkpointData.map((c) => {
       // Undo aircraft rotation.

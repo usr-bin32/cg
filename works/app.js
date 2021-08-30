@@ -9,6 +9,7 @@ function main() {
     canvas: document.getElementById("canvas"),
     antialias: true,
   });
+  // renderer.outputEncoding = THREE.sRGBEncoding;
 
   renderer.setClearColor(0x6989d6, 1);
   renderer.shadowMap.enabled = true;

@@ -19,9 +19,9 @@ class InspectionScene {
 
     // const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
     // const splotLight = new THREE.SpotLight(0xffffff, 0.75);
-    const splotLight = new THREE.SpotLight(0xffffff, 1);
+    const spotLight = new THREE.SpotLight(0xffffff, 1);
 
-    this.camera.add(splotLight);
+    this.camera.add(spotLight);
     // this.scene.add(ambientLight);
     this.scene.add(this.camera);
     this.scene.add(aircraft.object);
@@ -29,7 +29,7 @@ class InspectionScene {
     this.systems = [
       new ControlsSystem(aircraft),
       new MovingPartsSystem(aircraft),
-      new ModeSystem(new SimulationScene(this)),
+      new ModeSystem(new SimulationScene(this, renderer)),
     ];
 
     new OrbitControls(this.camera, renderer.domElement);
