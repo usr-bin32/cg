@@ -6,7 +6,7 @@ import { SimulationScene } from "./simulation.js";
 import { InspectionAircraft } from "../entities/inspection-aircraft.js";
 import { ControlsSystem } from "../systems/control.js";
 import { ModeSystem } from "../systems/mode.js";
-import { MovingPartsSystem } from "../systems/moving-part.js";
+import { MovingPartsSystem } from "../systems/moving-parts.js";
 
 class InspectionScene {
   constructor(renderer) {

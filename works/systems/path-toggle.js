@@ -1,14 +1,14 @@
 export class PathToggleSystem {
-    path;
+  path;
 
-    constructor(path) {
-        this.path = path;
-    }
+  constructor(path) {
+    this.path = path;
+  }
 
-    update(entity, world, dt) {
-        if (world.input.down("enter")) {
-            this.path.visible = !this.path.visible;
-        }
-        return false;
+  update(world) {
+    if (world.input.down("enter")) {
+      this.path.visible = !this.path.visible;
     }
+    return false;
+  }
 }

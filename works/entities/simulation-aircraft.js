@@ -3,7 +3,7 @@ import * as THREE from "../../build/three.module.js";
 import { Mirage } from "../assets/Mirage.js";
 import { CameraState } from "../systems/camera-toggle.js";
 import { Controls } from "../systems/control.js";
-import { MovingParts } from "../systems/moving-part.js";
+import { MovingParts } from "../systems/moving-parts.js";
 import { Physics } from "../systems/physics.js";
 
 class SimulationAircraft {

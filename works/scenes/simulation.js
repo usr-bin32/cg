@@ -3,7 +3,7 @@ import { GLTFLoader } from "../../build/jsm/loaders/GLTFLoader.js";
 
 import { Checkpoint } from "../entities/checkpoint.js";
 import { SimulationAircraft } from "../entities/simulation-aircraft.js";
-import { MovingPartsSystem } from "../systems/moving-part.js";
+import { MovingPartsSystem } from "../systems/moving-parts.js";
 import { ControlsSystem } from "../systems/control.js";
 import { ModeSystem } from "../systems/mode.js";
 import { PhysicsSystem } from "../systems/physics.js";
@@ -23,9 +23,9 @@ const checkpointData = [
   },
   {
     position: new THREE.Vector3(
-      10.842992734766871e-13,
+      100.842992734766871e-13,
       54.23904337146913,
-      -1186.221159830944
+      -1586.221159830944
     ),
     rotation: new THREE.Euler(0, 1.5707963267948966, 0.00677889348841733),
   },
@@ -135,6 +135,7 @@ class SimulationScene {
       new PhysicsSystem(aircraft),
       new CameraToggleSystem(aircraft),
       new CheckpointSystem(aircraft, checkpoints),
+      new PathToggleSystem(path),
       new ModeSystem(nextScene),
     ];
   }

@@ -23,6 +23,8 @@ class CameraToggleSystem {
         cameraHolder.position.set(0, 0, 0);
         camera.position.y = 2.5;
       }
+
+      utils.onWindowResize(world.scene.camera, renderer);
     }
   }
 }
