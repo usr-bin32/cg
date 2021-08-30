@@ -14,7 +14,7 @@ const Mirage = () => {
   const aircraft = new THREE.Object3D();
 
   // Convert to meters.
-  const scale = (9.2 / 1102);
+  const scale = 9.2 / 1102;
   aircraft.rotateY(Math.PI);
   aircraft.translateX(785 * scale);
   aircraft.scale.set(scale, scale, scale);
@@ -30,8 +30,16 @@ const Mirage = () => {
   return aircraftHolder;
 };
 
+const camouflage = new THREE.TextureLoader().load("assets/camo.jpg");
 const fuselageMaterial = new THREE.MeshPhongMaterial({
   color: 0x647f9c,
+  map: camouflage,
+  side: THREE.DoubleSide,
+  shininess: 50,
+});
+
+const fuselageMaterialRaw = new THREE.MeshPhongMaterial({
+  color: 0x2d466e,
   side: THREE.DoubleSide,
   shininess: 50,
 });
@@ -90,18 +98,32 @@ function tail() {
   rightCanard.translateX(-180);
   rightCanard.rotateZ(Math.PI / 2 + 0.075);
 
+  const sticker = new THREE.Mesh(
+    new THREE.PlaneBufferGeometry(600, 384),
+    new THREE.MeshPhongMaterial({
+      map: new THREE.TextureLoader().load("assets/braz.jpg"),
+      side: THREE.DoubleSide,
+      transparent: true,
+    })
+  );
+  sticker.scale.set(0.15, 0.15, 0.15);
+  sticker.translateZ(10);
+  sticker.translateY(-25);
+  sticker.translateX(-75);
+
   object.add(leftCanard);
   object.add(rightCanard);
   object.add(rudder());
   object.add(tailPipe());
   object.add(tailBox());
+  object.add(sticker);
 
   return object;
 }
 
 function tailBox() {
   const geometry = new THREE.BoxGeometry(80, 25, 20);
-  const object = new THREE.Mesh(geometry, fuselageMaterial);
+  const object = new THREE.Mesh(geometry, fuselageMaterialRaw);
 
   object.translateX(-210);
   object.translateY(90);
@@ -183,8 +205,22 @@ function wing(side) {
   });
   const object = new THREE.Mesh(geometry, fuselageMaterial);
 
+  const sticker = new THREE.Mesh(
+    new THREE.PlaneBufferGeometry(800, 800),
+    new THREE.MeshPhongMaterial({
+      map: new THREE.TextureLoader().load("assets/round.png"),
+      side: THREE.DoubleSide,
+      transparent: true,
+    })
+  );
+  sticker.scale.set(0.2, 0.2, 0.2);
+  sticker.translateZ(10);
+  sticker.translateY(-25);
+  sticker.translateX(-150);
+
   object.add(pylon());
   object.add(elevons(side));
+  object.add(sticker);
 
   return object;
 }
@@ -203,7 +239,7 @@ function pylon() {
 
 function fuelTank() {
   const geometry = new THREE.SphereGeometry(0.5, 64, 64);
-  const object = new THREE.Mesh(geometry, fuselageMaterial);
+  const object = new THREE.Mesh(geometry, fuselageMaterialRaw);
 
   object.scale.x = 600;
   object.scale.y = 80;
@@ -230,7 +266,7 @@ function outerElevon() {
   const width = 460 * 0.62;
   const height = 100;
   const geometry = new THREE.BoxGeometry(width, height, 12);
-  let object = new THREE.Mesh(geometry, fuselageMaterial);
+  let object = new THREE.Mesh(geometry, fuselageMaterialRaw);
 
   object.translateX(width / 2 - 481);
   object.translateY(-height / 2);
@@ -242,7 +278,7 @@ function innerElevon() {
   const width = 460 * (1 - 0.62);
   const height = 100;
   const geometry = new THREE.BoxGeometry(width, height, 12);
-  let object = new THREE.Mesh(geometry, fuselageMaterial);
+  let object = new THREE.Mesh(geometry, fuselageMaterialRaw);
 
   object.translateX(width / 2 - 481 + 460 * 0.62 + 1);
   object.translateY(-height / 2);
@@ -306,7 +342,7 @@ function intakeTubes() {
 function intake() {
   const len = 95;
   const geometry = new THREE.CylinderGeometry(80, 72, len, 64, 64, true);
-  const object = new THREE.Mesh(geometry, fuselageMaterial);
+  const object = new THREE.Mesh(geometry, fuselageMaterialRaw);
 
   object.translateY(-len / 2 - INTAKE_TUBE_LEN);
   object.scale.z = 1.4;
@@ -332,7 +368,7 @@ function intake() {
 function canard() {
   const geometry = new THREE.CylinderGeometry(15, 15, 90, 3, 1);
   geometry.scale(0.1, 1, 1);
-  const object = new THREE.Mesh(geometry, fuselageMaterial);
+  const object = new THREE.Mesh(geometry, fuselageMaterialRaw);
 
   return object;
 }
