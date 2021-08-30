@@ -1,5 +1,7 @@
 import * as THREE from "../../build/three.module.js";
 import { GLTFLoader } from "../../build/jsm/loaders/GLTFLoader.js";
+import { MTLLoader } from "../../build/jsm/loaders/MTLLoader.js";
+import { OBJLoader } from "../../build/jsm/loaders/OBJLoader.js";
 
 import { Checkpoint } from "../entities/checkpoint.js";
 import { SimulationAircraft } from "../entities/simulation-aircraft.js";
@@ -34,12 +36,12 @@ class SimulationScene {
   constructor(nextScene, renderer) {
     const scene = new THREE.Scene();
 
-    const loader = new THREE.TextureLoader();
-    const texture = loader.load("assets/sky.png", () => {
-      const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
-      rt.fromEquirectangularTexture(renderer, texture);
-      scene.background = rt.texture;
-    });
+    // const loader = new THREE.TextureLoader();
+    // const texture = loader.load("assets/sky.png", () => {
+    //   const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
+    //   rt.fromEquirectangularTexture(renderer, texture);
+    //   scene.background = rt.texture;
+    // });
 
     const checkpoints = checkpointData.map((c) => {
       // Undo aircraft rotation.
@@ -106,6 +108,23 @@ class SimulationScene {
         }
       });
     })();
+
+    loadOBJ("../assets/objects/", "plane", (object) => {
+      object.scale.set(0.15, 0.15, 0.15);
+
+      object.traverse(function (child) {
+        child.castShadow = true;
+        if (child.material) {
+          child.material.side = THREE.DoubleSide;
+        }
+      });
+
+      object.translateZ(-25);
+      object.translateX(15);
+      object.rotateY(-4 * Math.PI / 3);
+
+      scene.add(object);
+    });
 
     const camera = new THREE.PerspectiveCamera(
       65,
@@ -181,6 +200,21 @@ function addLighting(
 
   scene.add(ambientLight);
   scene.add(sunLight);
+}
+
+function loadOBJ(modelPath, modelName, callback) {
+  const manager = new THREE.LoadingManager();
+
+  const mtlLoader = new MTLLoader(manager);
+  mtlLoader.setPath(modelPath);
+  mtlLoader.load(modelName + ".mtl", function (materials) {
+    materials.preload();
+
+    const objLoader = new OBJLoader(manager);
+    objLoader.setMaterials(materials);
+    objLoader.setPath(modelPath);
+    objLoader.load(modelName + ".obj", callback);
+  });
 }
 
 export { SimulationScene };
