@@ -5,13 +5,14 @@ class CameraState {
 }
 
 class CameraToggleSystem {
-  constructor(entity) {
+  constructor(entity, cameraHolder) {
     this.entity = entity;
+    this.cameraHolder = cameraHolder
   }
 
   update(world) {
     if (world.input.down("C")) {
-      const cameraHolder = world.scene.getObjectByName("cameraHolder");
+      const cameraHolder = this.cameraHolder;
       const camera = cameraHolder.children[0];
       const cameraState = this.entity.cameraState;
 
@@ -23,8 +24,6 @@ class CameraToggleSystem {
         cameraHolder.position.set(0, 0, 0);
         camera.position.y = 2.5;
       }
-
-      utils.onWindowResize(world.scene.camera, renderer);
     }
   }
 }

@@ -11,7 +11,6 @@ import { CameraToggleSystem } from "../systems/camera-toggle.js";
 import { CheckpointSystem } from "../systems/checkpoint.js";
 import { PathToggleSystem } from "../systems/path-toggle.js";
 
-const WORLD_SCALE = 500;
 const checkpointData = [
   {
     position: new THREE.Vector3(
@@ -94,8 +93,8 @@ class SimulationScene {
           const dz = (Math.random() * 2 - 1) * 20 - 21.15;
 
           tree.scale.set(scale, scale, scale);
-          tree.translateX(dx * WORLD_SCALE);
-          tree.translateZ(dz * WORLD_SCALE);
+          tree.translateX(dx * 500);
+          tree.translateZ(dz * 500);
           scene.add(tree);
         }
       });
@@ -112,7 +111,6 @@ class SimulationScene {
     camera.position.x = -20;
 
     const cameraHolder = new THREE.Object3D();
-    cameraHolder.name = "cameraHolder";
     cameraHolder.add(camera);
 
     const aircraft = new SimulationAircraft();
@@ -133,7 +131,7 @@ class SimulationScene {
       new ControlsSystem(aircraft),
       new MovingPartsSystem(aircraft),
       new PhysicsSystem(aircraft),
-      new CameraToggleSystem(aircraft),
+      new CameraToggleSystem(aircraft, cameraHolder),
       new CheckpointSystem(aircraft, checkpoints),
       new PathToggleSystem(path),
       new ModeSystem(nextScene),
