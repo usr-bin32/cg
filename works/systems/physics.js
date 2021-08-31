@@ -25,7 +25,7 @@ class PhysicsSystem {
 
       const factor = Math.min(physics.velocity.x, MIN_VEL) / MIN_VEL;
       physics.angularVelocity.x = controls.roll * 3 * Math.pow(factor, 6);
-      physics.angularVelocity.y = controls.yaw * 3 * Math.pow(factor, 0.5);
+      physics.angularVelocity.y = controls.yaw * 4.5 * Math.pow(factor, 0.5);
       physics.angularVelocity.z = controls.pitch * 0.6 * Math.pow(factor, 6);
 
       const targetVelocity =
@@ -33,7 +33,7 @@ class PhysicsSystem {
 
       physics.acceleration.x = (targetVelocity - physics.velocity.x) / 1600;
       if (physics.velocity.x < MIN_VEL && targetVelocity > 0) {
-        physics.acceleration.x = (physics.velocity.x + 20) * ((MAX_VEL - MIN_VEL) / 1600) / MIN_VEL
+        physics.acceleration.x = (physics.velocity.x + 50) * ((MAX_VEL - MIN_VEL) / 1600) / MIN_VEL
       }
     }
 

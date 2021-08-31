@@ -66,16 +66,16 @@ const BuildingC = () => {
 };
 
 const BuildingD = () => {
-  var geometry = new THREE.BoxBufferGeometry(20, 40, 20);
+  var geometry = new THREE.BoxBufferGeometry(20, 30, 20);
   var material = new THREE.MeshPhongMaterial();
   const mesh1 = new THREE.Mesh(geometry, material);
-  mesh1.translateY(20);
+  mesh1.translateY(15);
 
   var geometry = new THREE.CylinderBufferGeometry(8, 8, 20, 3);
   var material = new THREE.MeshPhongMaterial();
   const mesh2 = new THREE.Mesh(geometry, material);
   mesh2.translateX(-3);
-  mesh2.translateY(40);
+  mesh2.translateY(30);
   mesh2.rotateX(-Math.PI / 2);
 
   const object = new THREE.Object3D();

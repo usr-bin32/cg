@@ -6,6 +6,7 @@ const Block = () => {
   const object = new THREE.Object3D();
   object.add(sectorA());
   object.add(sectorB());
+  object.add(sectorC());
 
   object.add(pavementA());
   object.add(pavementB());
@@ -130,6 +131,59 @@ function sectorB() {
   building.translateX(128 + 10);
   building.translateZ(33 + 20);
   building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  return object;
+}
+
+function sectorC() {
+  const object = new THREE.Object3D();
+
+  var building = buildings.BuildingB();
+  building.translateX(87 + 10);
+  building.translateZ(87 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingA();
+  building.translateX(107 + 10);
+  building.translateZ(87 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingA();
+  building.translateX(128 + 10);
+  building.translateZ(128 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingD();
+  building.translateX(128 + 10);
+  building.translateZ(87 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingD();
+  building.translateX(107 + 10);
+  building.translateZ(128 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingE();
+  building.translateX(87 + 10);
+  building.translateZ(128 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingE();
+  building.translateX(128 + 10);
+  building.translateZ(108 + 10);
+  building.rotateY(Math.PI / 2);
+  object.add(building);
+
+  var building = buildings.BuildingF();
+  building.translateX(87 + 20);
+  building.translateZ(108 + 10);
   object.add(building);
 
   return object;
