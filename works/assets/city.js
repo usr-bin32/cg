@@ -14,7 +14,7 @@ const City = (n) => {
     const block = Block();
     block.translateX(col * 160);
     block.translateZ(row * 160);
-    block.rotateY((Math.PI * i) / 2);
+    block.rotateY((Math.PI * i * 3) / 2);
 
     object.add(block);
   }
