@@ -16,7 +16,7 @@ class PhysicsSystem {
     this.entity = entity;
   }
 
-  update(_world, dt) {
+  update(world, dt) {
     const object = this.entity.object;
     const physics = this.entity.physics;
 
@@ -68,11 +68,11 @@ class PhysicsSystem {
     }
 
     // Checkpoint Builder
-    // if (world.input.down("shift")) {
-    //   console.log(
-    //     `{ position: new THREE.Vector3(${object.position.x}, ${object.position.y}, ${object.position.z}), rotation: new THREE.Euler(${object.rotation.x}, ${object.rotation.y}, ${object.rotation.z}) },`
-    //   );
-    // }
+    if (world.input.down("shift")) {
+      console.log(
+        `{ position: new THREE.Vector3(${object.position.x}, ${object.position.y}, ${object.position.z}), rotation: new THREE.Euler(${object.rotation.x}, ${object.rotation.y}, ${object.rotation.z}) },`
+      );
+    }
 
     // Translation
     object.position.add(

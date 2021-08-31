@@ -17,19 +17,27 @@ import { PathToggleSystem } from "../systems/path-toggle.js";
 const checkpointData = [
   {
     position: new THREE.Vector3(
-      1.842992734766871e-13,
-      54.23904337146913,
-      -1186.221159830944
+      7.601468621258395e-14,
+      30.126366714909555,
+      -481.5748181018938
     ),
-    rotation: new THREE.Euler(0, 1.5707963267948966, 0.00677889348841733),
+    rotation: new THREE.Euler(0, 1.5707963267948966, 0.07975801523629161),
   },
   {
     position: new THREE.Vector3(
-      100.842992734766871e-13,
-      54.23904337146913,
-      -1586.221159830944
+      1.1495882301690155e-13,
+      102.3322558567598,
+      -745.3036186867815
     ),
-    rotation: new THREE.Euler(0, 1.5707963267948966, 0.00677889348841733),
+    rotation: new THREE.Euler(0, 1.5707963267948966, 0.1757905826760138),
+  },
+  {
+    position: new THREE.Vector3(
+      1.7532369167588272e-13,
+      30.126366714909555,
+      -1126.447576913396
+    ),
+    rotation: new THREE.Euler(0, 1.5707963267948966, 0.0035592789546697863),
   },
 ];
 
@@ -88,27 +96,31 @@ class SimulationScene {
       return ribbon;
     })();
 
-    // (() => {
-    //   const loader = new GLTFLoader();
-    //   loader.load("assets/tree1.glb", (treeGltf) => {
-    //     treeGltf.scene.traverse((child) => {
-    //       child.castShadow = true;
-    //     });
+    (() => {
+      const loader = new GLTFLoader();
+      loader.load("assets/tree1.glb", (treeGltf) => {
+        treeGltf.scene.traverse((child) => {
+          child.castShadow = true;
+        });
 
-    //     for (let i = 0; i < 500; i++) {
-    //       const tree = treeGltf.scene.clone();
+        for (let i = 0; i < 100; i++) {
+          const tree = treeGltf.scene.clone();
 
-    //       const scale = Math.random() + 3;
-    //       const dx = (Math.random() * 2 - 1) * 8;
-    //       const dz = (Math.random() * 2 - 1) * 20 - 21.15;
+          const scale = Math.random() + 3;
+          tree.scale.set(scale, scale, scale);
 
-    //       tree.scale.set(scale, scale, scale);
-    //       tree.translateX(dx * 500);
-    //       tree.translateZ(dz * 500);
-    //       scene.add(tree);
-    //     }
-    //   });
-    // })();
+          const innerRadius = 160 * 4;
+          const r = Math.random() * 200;
+          const theta = Math.random() * 2 * Math.PI;
+          
+          const v = new THREE.Vector3().setFromCylindrical(new THREE.Cylindrical(innerRadius + r, theta, 0));
+          tree.translateX(v.x);
+          tree.translateZ(v.z - 1200);
+
+          scene.add(tree);
+        }
+      });
+    })();
 
     loadOBJ("../assets/objects/", "plane", (object) => {
       object.scale.set(0.15, 0.15, 0.15);
@@ -149,14 +161,17 @@ class SimulationScene {
     city.translateZ(-1200);
     scene.add(city);
 
-    // Temp plane
+    // Temporary plane.
     (() => {
-      const geometry = new THREE.PlaneBufferGeometry(50000, 50000);
-      const material = new THREE.MeshBasicMaterial({
+      const geometry = new THREE.PlaneBufferGeometry(25000, 25000);
+      const material = new THREE.MeshPhongMaterial({
         side: THREE.DoubleSide,
         color: "darkgrey",
       });
       const mesh = new THREE.Mesh(geometry, material);
+      mesh.receiveShadow = true;
+
+      console.log(mesh);
 
       mesh.rotateX(Math.PI / 2);
 
