@@ -18,7 +18,7 @@ const checkpointData = [
   {
     position: new THREE.Vector3(
       7.601468621258395e-14,
-      30.126366714909555,
+      40.126366714909555,
       -481.5748181018938
     ),
     rotation: new THREE.Euler(0, 1.5707963267948966, 0.07975801523629161),
@@ -26,7 +26,7 @@ const checkpointData = [
   {
     position: new THREE.Vector3(
       1.1495882301690155e-13,
-      102.3322558567598,
+      80.3322558567598,
       -745.3036186867815
     ),
     rotation: new THREE.Euler(0, 1.5707963267948966, 0.1757905826760138),
@@ -37,6 +37,10 @@ const checkpointData = [
       30.126366714909555,
       -1126.447576913396
     ),
+    rotation: new THREE.Euler(0, 1.5707963267948966, 0.0035592789546697863),
+  },
+  {
+    position: new THREE.Vector3(100, 100.126366714909555, -2000.447576913396),
     rotation: new THREE.Euler(0, 1.5707963267948966, 0.0035592789546697863),
   },
 ];
@@ -163,7 +167,6 @@ class SimulationScene {
     city.translateZ(-1200);
     scene.add(city);
 
-    // Temporary plane.
     (() => {
       const texture = new THREE.TextureLoader().load("assets/sand.jpg");
       texture.wrapS = THREE.RepeatWrapping;
@@ -255,7 +258,7 @@ function addStaticLighting(scene, object) {
   staticLight.shadow.camera.right = d;
   staticLight.shadow.camera.top = d;
   staticLight.shadow.camera.bottom = -d;
-  staticLight.shadow.camera.near = 0.1;  
+  staticLight.shadow.camera.near = 0.1;
   staticLight.shadow.camera.far = 100000;
 
   scene.add(staticLight);
