@@ -22,6 +22,11 @@ const City = (n) => {
   object.translateX(-160 * ((n - 1) / 2));
   object.translateZ(-160 * ((n - 1) / 2));
 
+  object.traverse((node) => {
+    node.castShadow = true;
+    node.receiveShadow = true;
+  });
+
   return object;
 };
 
@@ -216,13 +221,13 @@ function sectorC() {
 }
 
 function pavementA() {
-  const geometry = new THREE.BoxBufferGeometry(65, 0.2, 140);
+  const geometry = new THREE.BoxBufferGeometry(65, 0.3, 140);
   const material = new THREE.MeshLambertMaterial({ color: "slategray" });
   const mesh = new THREE.Mesh(geometry, material);
 
   mesh.translateX(65 / 2);
   mesh.translateZ(140 / 2);
-  mesh.translateY(0.1);
+  mesh.translateY(0.15);
 
   mesh.translateX(10);
   mesh.translateZ(10);
@@ -231,13 +236,13 @@ function pavementA() {
 }
 
 function pavementB() {
-  const geometry = new THREE.BoxBufferGeometry(65, 0.2, 65);
+  const geometry = new THREE.BoxBufferGeometry(65, 0.3, 65);
   const material = new THREE.MeshLambertMaterial({ color: "slategray" });
   const mesh = new THREE.Mesh(geometry, material);
 
   mesh.translateX(65 / 2);
   mesh.translateZ(65 / 2);
-  mesh.translateY(0.1);
+  mesh.translateY(0.15);
 
   mesh.translateX(85);
   mesh.translateZ(10);
@@ -246,13 +251,13 @@ function pavementB() {
 }
 
 function pavementC() {
-  const geometry = new THREE.BoxBufferGeometry(65, 0.2, 65);
+  const geometry = new THREE.BoxBufferGeometry(65, 0.3, 65);
   const material = new THREE.MeshLambertMaterial({ color: "slategray" });
   const mesh = new THREE.Mesh(geometry, material);
 
   mesh.translateX(65 / 2);
   mesh.translateZ(65 / 2);
-  mesh.translateY(0.1);
+  mesh.translateY(0.15);
 
   mesh.translateX(85);
   mesh.translateZ(85);
