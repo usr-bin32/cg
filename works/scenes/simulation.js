@@ -179,8 +179,6 @@ class SimulationScene {
       const mesh = new THREE.Mesh(geometry, material);
       mesh.receiveShadow = true;
 
-      console.log(mesh);
-
       mesh.rotateX(Math.PI / 2);
 
       scene.add(mesh);
@@ -191,7 +189,7 @@ class SimulationScene {
     aircraft.object.add(cameraHolder);
     scene.add(aircraft.object);
 
-    addLighting(scene, aircraft.object);
+    this.staticLight = addLighting(scene, aircraft.object);
 
     this.scene = scene;
     this.camera = camera;
@@ -211,37 +209,58 @@ class SimulationScene {
   }
 
   update(world, dt) {
+    this.staticLight.shadow.autoUpdate = false;
     for (const system of this.systems) {
       system.update(world, dt);
     }
   }
 }
 
-function addLighting(
-  scene,
-  target,
-  position = new THREE.Vector3(20000, 50000, 80000)
-) {
+function addLighting(scene, object) {
   const ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 0.7);
 
-  const sunLight = new THREE.DirectionalLight("white", 0.8);
-  sunLight.position.copy(position);
-  sunLight.target = target;
+  const sunLight = new THREE.DirectionalLight("white", 0.5);
+  sunLight.position.copy(new THREE.Vector3(2000, 10000, 12000));
+  sunLight.target = object;
   sunLight.castShadow = true;
-  sunLight.shadow.mapSize.width = 2048 * 2;
-  sunLight.shadow.mapSize.height = 2048 * 2;
+  sunLight.shadow.mapSize.width = 1024;
+  sunLight.shadow.mapSize.height = 1024;
 
-  const d = 500;
+  const d = 8;
   sunLight.shadow.camera.visible = true;
   sunLight.shadow.camera.left = -d;
   sunLight.shadow.camera.right = d;
   sunLight.shadow.camera.top = d;
   sunLight.shadow.camera.bottom = -d;
   sunLight.shadow.camera.near = 0.1;
-  sunLight.shadow.camera.far = 1000000;
+  sunLight.shadow.camera.far = 100000;
 
   scene.add(ambientLight);
   scene.add(sunLight);
+
+  return addStaticLighting(scene, object);
+}
+
+function addStaticLighting(scene, object) {
+  const staticLight = new THREE.DirectionalLight("white", 0.5);
+
+  staticLight.position.copy(new THREE.Vector3(2000, 10000, 12000));
+  staticLight.castShadow = true;
+  staticLight.shadow.mapSize.width = 2024 * 8;
+  staticLight.shadow.mapSize.height = 2024 * 8;
+
+  const d = 2000;
+  staticLight.shadow.camera.visible = true;
+  staticLight.shadow.camera.left = -d;
+  staticLight.shadow.camera.right = d;
+  staticLight.shadow.camera.top = d;
+  staticLight.shadow.camera.bottom = -d;
+  staticLight.shadow.camera.near = 0.1;  
+  staticLight.shadow.camera.far = 100000;
+
+  scene.add(staticLight);
+
+  return staticLight;
 }
 
 function loadOBJ(modelPath, modelName, callback) {
