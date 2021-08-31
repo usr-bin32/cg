@@ -112,8 +112,10 @@ class SimulationScene {
           const innerRadius = 160 * 4;
           const r = Math.random() * 200;
           const theta = Math.random() * 2 * Math.PI;
-          
-          const v = new THREE.Vector3().setFromCylindrical(new THREE.Cylindrical(innerRadius + r, theta, 0));
+
+          const v = new THREE.Vector3().setFromCylindrical(
+            new THREE.Cylindrical(innerRadius + r, theta, 0)
+          );
           tree.translateX(v.x);
           tree.translateZ(v.z - 1200);
 
@@ -163,10 +165,16 @@ class SimulationScene {
 
     // Temporary plane.
     (() => {
+      const texture = new THREE.TextureLoader().load("assets/sand.jpg");
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(1000, 1000);
+
       const geometry = new THREE.PlaneBufferGeometry(25000, 25000);
       const material = new THREE.MeshPhongMaterial({
         side: THREE.DoubleSide,
         color: "darkgrey",
+        map: texture,
       });
       const mesh = new THREE.Mesh(geometry, material);
       mesh.receiveShadow = true;
