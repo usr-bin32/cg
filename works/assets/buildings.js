@@ -106,20 +106,20 @@ const BuildingE = () => {
 };
 
 const BuildingF = () => {
-  var geometry = new THREE.BoxBufferGeometry(40, 100, 20);
+  var geometry = new THREE.BoxBufferGeometry(40, 50, 20);
   var material = new THREE.MeshPhongMaterial();
   const mesh1 = new THREE.Mesh(geometry, material);
-  mesh1.translateY(50);
+  mesh1.translateY(25);
 
   var geometry = new THREE.BoxBufferGeometry(35, 5, 15);
   var material = new THREE.MeshPhongMaterial();
   const mesh2 = new THREE.Mesh(geometry, material);
-  mesh2.translateY(100 + 2.5);
+  mesh2.translateY(50 + 2.5);
 
   var geometry = new THREE.BoxBufferGeometry(40, 2, 20);
   var material = new THREE.MeshPhongMaterial();
   const mesh3 = new THREE.Mesh(geometry, material);
-  mesh3.translateY(100 + 5 + 1);
+  mesh3.translateY(50 + 5 + 1);
 
   const object = new THREE.Object3D();
   object.add(mesh1);

@@ -2,6 +2,29 @@ import * as THREE from "../../build/three.module.js";
 
 import * as buildings from "./buildings.js";
 
+const City = (n) => {
+  const t = n * n;
+
+  const object = new THREE.Object3D();
+
+  for (let i = 0; i < t; i += 1) {
+    const col = i % n;
+    const row = Math.floor(i / n);
+
+    const block = Block();
+    block.translateX(col * 160);
+    block.translateZ(row * 160);
+    block.rotateY((Math.PI * i) / 2);
+
+    object.add(block);
+  }
+
+  object.translateX(-160 * ((n - 1) / 2));
+  object.translateZ(-160 * ((n - 1) / 2));
+
+  return object;
+};
+
 const Block = () => {
   const object = new THREE.Object3D();
   object.add(sectorA());
@@ -12,7 +35,10 @@ const Block = () => {
   object.add(pavementB());
   object.add(pavementC());
 
-  object.translateX(-160 / 2);
+  object.children.forEach((child) => {
+    child.translateX(-160 / 2);
+    child.translateZ(-160 / 2);
+  });
 
   return object;
 };
@@ -234,4 +260,4 @@ function pavementC() {
   return mesh;
 }
 
-export { Block };
+export { Block, City };
